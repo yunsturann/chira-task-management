@@ -8,29 +8,49 @@ import Link from "next/link";
 import { navLinks } from "@/constants";
 
 // ** Third Party Components
-import { UserButton } from "@clerk/nextjs";
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+
+// ** Custom Components
+import NavItem from "./NavItem";
+import Logo from "../logo";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Sidebar = () => {
   return (
-    <aside className="bg-slate-200 w-72 h-screen hidden lg:flex flex-col justify-between gap-4 p-6 shadow-md shadow-purple-400/50">
-      {/* Logo and Nav links */}
-      <div>
-        {/* Logo */}
-        <h2>Logo</h2>
-        {/* Links */}
-        <ul className="mt-6 text-lg">
-          {navLinks.map((link) => (
-            <Link key={link.title} href={link.href}>
-              <li className="text-lg">{link.title}</li>
-            </Link>
-          ))}
-        </ul>
+    <aside className="dark:bg-gray-800 w-72 h-screen hidden lg:flex flex-col gap-4 p-6 shadow-md shadow-purple-200/50">
+      {/* Logo */}
+      <Logo />
+      {/* Links */}
+      <div className="flex-1 flex flex-col justify-between gap-y-4 py-4">
+        <SignedIn>
+          <ul className="text-lg flex flex-col gap-y-2">
+            {navLinks.map((link) => (
+              <NavItem
+                key={link.title}
+                href={link.href}
+                title={link.title}
+                Icon={<link.icon />}
+              />
+            ))}
+          </ul>
+
+          {/* Bottom Actions  */}
+          <div className="space-y-8">
+            <ThemeSwitcher />
+            <UserButton afterSignOutUrl="/" showName />
+          </div>
+        </SignedIn>
+        {/* SignOut */}
+        <SignedOut>
+          <Link
+            href="/sign-in"
+            className="text-xl text-center text-white font-semibold p-3 rounded-lg bg-blue-500  dark:bg-blue-900 hover:opacity-70 transition duration-300"
+          >
+            Login
+          </Link>
+          <ThemeSwitcher />
+        </SignedOut>
       </div>
-      {/* Bottom Actions  */}
-      <ul>
-        <UserButton />
-      </ul>
     </aside>
   );
 };

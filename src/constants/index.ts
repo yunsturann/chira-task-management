@@ -2,7 +2,8 @@
 import { FaHome } from "react-icons/fa";
 import { GrProjects } from "react-icons/gr";
 import { FaUserGroup } from "react-icons/fa6";
-import { FcTodoList } from "react-icons/fc";
+import { LuListTodo } from "react-icons/lu";
+import { FaUserAlt } from "react-icons/fa";
 
 export const navLinks = [
   {
@@ -23,6 +24,11 @@ export const navLinks = [
   {
     title: "Todo",
     href: "/todo",
-    icon: FcTodoList,
+    icon: LuListTodo,
+  },
+  {
+    title: "Profile",
+    href: "/profile",
+    icon: FaUserAlt,
   },
 ];
