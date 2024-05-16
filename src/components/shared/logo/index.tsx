@@ -27,7 +27,7 @@ const Logo = ({ size }: LogoProps) => {
   const textSize = sizes.text[size || "large"];
 
   return (
-    <Link href={"/"} className="flex items-center gap-3">
+    <Link href={"/"} className="flex items-center gap-3" draggable>
       <Image
         src="/images/logo.jpeg"
         alt="Company Logo"

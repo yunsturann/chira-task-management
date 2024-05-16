@@ -5,6 +5,7 @@ import { useState } from "react";
 
 // ** Next.js Imports
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 // ** Third Party Components
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
@@ -13,8 +14,8 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { IoMdMenu } from "react-icons/io";
 
 // ** Custom Components
+const HamburgerMenu = dynamic(() => import("./HamburgerMenu"), { ssr: false });
 import Logo from "../logo";
-import HamburgerMenu from "./HamburgerMenu";
 import ThemeSwitcher from "../sidebar/ThemeSwitcher";
 
 const MobileNav = () => {

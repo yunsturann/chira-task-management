@@ -21,7 +21,7 @@ const NavItem = (props: NavItemProps) => {
   const isActive = pathname === href;
 
   return (
-    <Link href={href}>
+    <Link href={href} draggable>
       <li
         className={cn(
           "text-xl flex items-center gap-4 text-neutral-600 dark:text-white font-semibold p-3 rounded-lg ",
