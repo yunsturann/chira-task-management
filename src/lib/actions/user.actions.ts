@@ -7,6 +7,7 @@ import User from "../models/user-model";
 // CREATE
 export async function createUser(user: CreateUserParams) {
   try {
+    console.log("user", user);
     await connectToDatabase();
 
     const newUser = await User.create(user);
