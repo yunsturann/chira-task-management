@@ -1,6 +1,6 @@
 // ** Nextjs Imports
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 
 // ** Styles
 import "./globals.css";
@@ -11,7 +11,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 // ** Custom Components
 import Provider from "@/components/shared/providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const ubuntu = Ubuntu({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +29,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
+        <body className={ubuntu.className}>
           <Provider>{children}</Provider>
         </body>
       </html>

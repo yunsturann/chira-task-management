@@ -8,7 +8,12 @@ const config: Config = {
   ],
   darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "slogan-light": "url('/images/slogan-bg.jpg')",
+        "slogan-dark": "url('/images/slogan-dark.jpg')",
+      },
+    },
   },
   plugins: [],
 };
