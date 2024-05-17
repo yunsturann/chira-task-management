@@ -12,7 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const colors = {
   gray: "bg-gray-100 border-gray-300 text-black hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-500 dark:text-white dark:hover:bg-gray-600",
-  blue: "bg-blue-500 border-blue-500 text-white",
+  blue: "bg-blue-500 border-blue-600 text-white hover:bg-blue-600",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {

@@ -13,13 +13,17 @@ export interface IUser {
   __v: number;
 }
 
-export interface ITodo extends Document {
+export interface ITodo {
+  _id: string;
   title: string;
   description: string;
   priority: "low" | "medium" | "high";
   tags: string[];
   status: "todo" | "in-progress" | "done";
   user: Schema.Types.ObjectId;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export enum TodoStatus {

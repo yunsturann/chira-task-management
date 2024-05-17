@@ -8,26 +8,35 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   isUnderlined?: boolean;
   label?: string;
   error?: string;
+  necessary?: boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { className, error, isUnderlined = false, ...rest } = props;
+  const {
+    className,
+    error,
+    isUnderlined = false,
+    type = "text",
+    necessary = false,
+    ...rest
+  } = props;
 
   return (
     <div>
       {props.label && (
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          {props.label}
+        <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">
+          {props.label} {necessary && <span className="text-red-500">*</span>}
         </label>
       )}
       <input
         ref={ref}
+        type={type}
         {...rest}
         className={cn(
           "outline-none py-2 block w-full transition duration-300 ease-in-out text-black dark:text-white",
           {
             "border-b border-gray-400 bg-transparent": isUnderlined,
-            "px-4 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50 ":
+            "dark:bg-gray-600 px-4 rounded-md border border-gray-300 dark:border-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50":
               !isUnderlined,
           },
           className

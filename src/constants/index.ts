@@ -32,3 +32,18 @@ export const navLinks = [
     icon: FaUserAlt,
   },
 ];
+
+export const todoStatusArray = [
+  {
+    label: "Todo",
+    value: "todo",
+  },
+  {
+    label: "In Progress",
+    value: "in-progress",
+  },
+  {
+    label: "Done",
+    value: "done",
+  },
+];

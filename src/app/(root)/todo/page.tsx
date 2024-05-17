@@ -14,6 +14,10 @@ import { ITodo, IUser } from "@/types/model.types";
 // ** Third Party Imports
 import { auth } from "@clerk/nextjs";
 
+// ** Custom Components
+import Board from "@/components/todo/board";
+import Container from "@/components/shared/container";
+
 const TodoPage = async () => {
   const { userId } = auth();
 
@@ -29,7 +33,11 @@ const TodoPage = async () => {
     redirect("/onboarding");
   }
 
-  return <div className="bg-slate-200">TodoPage</div>;
+  return (
+    <Container paddingVertical>
+      <Board boardTitle="Todo" tasks={todos} />
+    </Container>
+  );
 };
 
 export default TodoPage;
