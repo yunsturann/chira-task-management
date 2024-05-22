@@ -10,6 +10,8 @@ import { FaRocket } from "react-icons/fa";
 // ** Third Party Imports
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { formatTimestamp } from "@/lib/utils";
+
+// ** Custom Components
 import Chip from "@/components/ui/Chip";
 
 interface ColumnProps {
@@ -59,9 +61,18 @@ const Column = (props: ColumnProps) => {
                       </div>
                     </div>
                     {/* Card Body */}
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <h3 className="font-medium">{task.title}</h3>
                       {/* Tags */}
+                      {task.tags && task.tags.length > 0 && (
+                        <div className="flex gap-1">
+                          {task.tags.map((tag, index) => (
+                            <Chip key={index} className="rounded-lg">
+                              {tag}
+                            </Chip>
+                          ))}
+                        </div>
+                      )}
 
                       {/* Date */}
                       <p className="text-gray-400 text-xs">
@@ -74,6 +85,7 @@ const Column = (props: ColumnProps) => {
                 )}
               </Draggable>
             ))}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>

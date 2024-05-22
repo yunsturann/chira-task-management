@@ -35,7 +35,7 @@ const TodoPage = async () => {
 
   return (
     <Container paddingVertical>
-      <Board boardTitle="Todo" tasks={todos} />
+      <Board boardTitle="Todo" tasks={todos} userId={user._id} />
     </Container>
   );
 };

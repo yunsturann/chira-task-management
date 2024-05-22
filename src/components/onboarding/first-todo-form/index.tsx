@@ -31,6 +31,7 @@ const initialState: FormState = {
 
 const FirstTodoForm = (props: FirstTodoFormProps) => {
   const { userId } = props;
+  console.log(userId);
 
   const router = useRouter();
 
