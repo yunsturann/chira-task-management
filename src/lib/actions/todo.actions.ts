@@ -30,12 +30,34 @@ export async function createTodoWithFormData(
 
 // Read By UserId
 export async function getTodosByUserId(userId: string) {
+  const todo: any[] = [],
+    in_progress: any[] = [],
+    done: any[] = [];
+
   try {
     await connectToDatabase();
 
     const todos = await Todo.find({ user: userId });
 
-    return JSON.parse(JSON.stringify(todos));
+    todos.forEach((todoItem) => {
+      switch (todoItem.status) {
+        case "todo":
+          todo.push(todoItem);
+          break;
+        case "in_progress":
+          in_progress.push(todoItem);
+          break;
+        case "done":
+          done.push(todoItem);
+          break;
+        default:
+          break;
+      }
+    });
+
+    return JSON.parse(
+      JSON.stringify({ todo, in_progress, done, length: todos.length })
+    );
   } catch (error) {
     console.error(error);
   }

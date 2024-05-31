@@ -7,7 +7,7 @@ import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import toast from "react-hot-toast";
 
 // ** Types
-import { ITodo, TodoStatus } from "@/types/model.types";
+import { ITodo, ITodoResponse, TodoStatus } from "@/types/model.types";
 
 // ** Icons
 import { FaPlus } from "react-icons/fa";
@@ -18,7 +18,7 @@ import TodoFormModal from "../todo-form-modal";
 
 interface BoardProps {
   boardTitle: string;
-  tasks: ITodo[];
+  tasks: ITodoResponse;
   userId: string;
 }
 
@@ -26,22 +26,10 @@ const Board = (props: BoardProps) => {
   const { boardTitle, tasks, userId } = props;
 
   // ** States
-  const [todos, setTodos] = useState<ITodo[]>(tasks);
+  const [todos, setTodos] = useState<ITodoResponse>(tasks);
   const [showAddTodoModal, setShowAddTodoModal] = useState(false);
 
-  // const todoTasks = todos
-  //   .filter((task) => task.status === TodoStatus.TODO)
-  //   .map((task, index) => ({ ...task, index }));
-
-  // const inProgressTasks = todos
-  //   .filter((task) => task.status === TodoStatus.IN_PROGRESS)
-  //   .map((task, index) => ({ ...task, index }));
-
-  // const doneTasks = todos
-  //   .filter((task) => task.status === TodoStatus.DONE)
-  //   .map((task, index) => ({ ...task, index }));
-
-  // console.log(todoTasks, inProgressTasks, doneTasks);
+  useEffect(() => {}, []);
 
   // ** Add new todo handler
   const handleAddTodo = async (formData: IAddTodoByModal) => {
@@ -68,7 +56,7 @@ const Board = (props: BoardProps) => {
 
       const data = await response.json();
 
-      setTodos([...todos, data]);
+      // setTodos([...todos, data]);
       toast.success("Todo added successfully");
     } catch (error: any) {
       toast.error(error.message);
@@ -90,9 +78,40 @@ const Board = (props: BoardProps) => {
       return;
 
     // Find the dragged task
-    const draggedTask = todos?.find((todo) => todo._id === draggableId);
+    const draggedTask = todos[source.droppableId as TodoStatus][source.index];
 
-    console.log(draggedTask);
+    // If the task is dropped in the same column
+    if (source.droppableId === destination.droppableId) {
+      const newTodos = todos[source.droppableId as TodoStatus];
+
+      // Remove the task from the source index
+      newTodos.splice(source.index, 1);
+
+      // Add the task to the destination index
+      newTodos.splice(destination.index, 0, draggedTask);
+
+      setTodos({
+        ...todos,
+        [source.droppableId as TodoStatus]: newTodos,
+      });
+    } else {
+      const sourceTodos = todos[source.droppableId as TodoStatus];
+      const destinationTodos = todos[destination.droppableId as TodoStatus];
+
+      // remove the task from the source column
+      sourceTodos.splice(source.index, 1);
+
+      // add the task to the destination column
+      destinationTodos.splice(destination.index, 0, draggedTask);
+
+      setTodos({
+        ...todos,
+        [source.droppableId as TodoStatus]: sourceTodos || [],
+        [destination.droppableId as TodoStatus]: destinationTodos || [],
+      });
+    }
+
+    return;
 
     // Update the status of the dragged task
     let updatedStatus = destination.droppableId;
@@ -140,19 +159,17 @@ const Board = (props: BoardProps) => {
           <Column
             title="Todo"
             droppableId={TodoStatus.TODO}
-            tasks={todos.filter((task) => task.status === TodoStatus.TODO)}
+            tasks={todos.todo}
           />
           <Column
             title="In Progress"
             droppableId={TodoStatus.IN_PROGRESS}
-            tasks={todos.filter(
-              (tasks) => tasks.status === TodoStatus.IN_PROGRESS
-            )}
+            tasks={todos.in_progress}
           />
           <Column
             title="Done"
             droppableId={TodoStatus.DONE}
-            tasks={todos.filter((tasks) => tasks.status === TodoStatus.DONE)}
+            tasks={todos.done}
           />
         </div>
       </DragDropContext>

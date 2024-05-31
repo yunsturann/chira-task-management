@@ -38,8 +38,8 @@ const Column = (props: ColumnProps) => {
             ref={provided.innerRef}
             className="bg-gray-200 dark:bg-gray-700 rounded-lg p-4 space-y-3 shadow-md"
           >
-            {tasks.map((task, index) => (
-              <Draggable key={index} draggableId={task._id} index={index}>
+            {tasks?.map((task, index) => (
+              <Draggable key={task._id} draggableId={task._id} index={index}>
                 {(provided) => (
                   <div
                     ref={provided.innerRef}

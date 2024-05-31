@@ -23,12 +23,20 @@ export interface ITodo {
   user: Schema.Types.ObjectId;
   createdAt: string;
   updatedAt: string;
+  index: number;
   __v: number;
+}
+
+export interface ITodoResponse {
+  todo: ITodo[];
+  in_progress: ITodo[];
+  done: ITodo[];
+  length: number;
 }
 
 export enum TodoStatus {
   TODO = "todo",
-  IN_PROGRESS = "in-progress",
+  IN_PROGRESS = "in_progress",
   DONE = "done",
 }
 

@@ -9,7 +9,7 @@ import { getUserById } from "@/lib/actions/user.actions";
 import { getTodosByUserId } from "@/lib/actions/todo.actions";
 
 // ** Types
-import { ITodo, IUser } from "@/types/model.types";
+import { ITodoResponse, IUser } from "@/types/model.types";
 
 // ** Third Party Imports
 import { auth } from "@clerk/nextjs";
@@ -27,7 +27,7 @@ const TodoPage = async () => {
     redirect("/");
   }
 
-  const todos: ITodo[] = await getTodosByUserId(user._id);
+  const todos: ITodoResponse = await getTodosByUserId(user._id);
 
   if (todos.length === 0) {
     redirect("/onboarding");

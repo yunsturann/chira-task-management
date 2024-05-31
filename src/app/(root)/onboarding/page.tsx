@@ -1,3 +1,6 @@
+// ** Nextjs Imports
+import { redirect } from "next/navigation";
+
 // ** Types
 import { IUser } from "@/types/model.types";
 
@@ -15,6 +18,10 @@ const OnboardingPage = async () => {
   const { userId } = auth();
 
   const user: IUser = await getUserById(userId!);
+
+  if (!user) {
+    redirect("/");
+  }
 
   return (
     <div className="h-screen flex justify-center items-start">
