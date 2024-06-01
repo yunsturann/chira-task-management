@@ -1,5 +1,6 @@
 "use server";
 
+import { ITodo } from "@/types/model.types";
 // ** Db Connection
 import { connectToDatabase } from "../database";
 
@@ -8,7 +9,7 @@ import Todo from "../models/todo-model";
 
 // CREATE FIRST TODO
 export async function createTodoWithFormData(
-  prevState: FormState,
+  prevState: TFormActionState,
   todo: FormData
 ) {
   const { userId, priority, title } = Object.fromEntries(todo.entries());
@@ -30,34 +31,19 @@ export async function createTodoWithFormData(
 
 // Read By UserId
 export async function getTodosByUserId(userId: string) {
-  const todo: any[] = [],
-    in_progress: any[] = [],
-    done: any[] = [];
-
   try {
     await connectToDatabase();
 
-    const todos = await Todo.find({ user: userId });
+    // Start all queries concurrently
+    const [todo, in_progress, done]: ITodo[][] = await Promise.all([
+      Todo.find({ user: userId, status: "todo" }).sort("index"),
+      Todo.find({ user: userId, status: "in_progress" }).sort("index"),
+      Todo.find({ user: userId, status: "done" }).sort("index"),
+    ]);
 
-    todos.forEach((todoItem) => {
-      switch (todoItem.status) {
-        case "todo":
-          todo.push(todoItem);
-          break;
-        case "in_progress":
-          in_progress.push(todoItem);
-          break;
-        case "done":
-          done.push(todoItem);
-          break;
-        default:
-          break;
-      }
-    });
+    const length = todo.length + in_progress.length + done.length;
 
-    return JSON.parse(
-      JSON.stringify({ todo, in_progress, done, length: todos.length })
-    );
+    return JSON.parse(JSON.stringify({ todo, in_progress, done, length }));
   } catch (error) {
     console.error(error);
   }

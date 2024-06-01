@@ -13,13 +13,27 @@ export interface IUser {
   __v: number;
 }
 
+// ** Todo Types
+
+export enum TodoStatus {
+  TODO = "todo",
+  IN_PROGRESS = "in_progress",
+  DONE = "done",
+}
+
+export enum TodoPriority {
+  LOW = "low",
+  MEDIUM = "medium",
+  HIGH = "high",
+}
+
 export interface ITodo {
   _id: string;
   title: string;
   description: string;
   priority: "low" | "medium" | "high";
   tags: string[];
-  status: "todo" | "in-progress" | "done";
+  status: "todo" | "in_progress" | "done";
   user: Schema.Types.ObjectId;
   createdAt: string;
   updatedAt: string;
@@ -34,14 +48,8 @@ export interface ITodoResponse {
   length: number;
 }
 
-export enum TodoStatus {
-  TODO = "todo",
-  IN_PROGRESS = "in_progress",
-  DONE = "done",
-}
-
-export enum TodoPriority {
-  LOW = "low",
-  MEDIUM = "medium",
-  HIGH = "high",
+export interface ITodoStatusIndexRequest {
+  _id: string;
+  status: TodoStatus;
+  index: number;
 }

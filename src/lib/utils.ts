@@ -1,5 +1,6 @@
 // ** Third Party Imports
 import clsx, { ClassValue } from "clsx";
+import { ChangeEvent } from "react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -35,4 +36,32 @@ export const randomColorGenerator = (): string => {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+};
+
+export const onInputUserName = (e: ChangeEvent<HTMLInputElement>) => {
+  e.target.value = e.target.value
+    // remove white space
+    .replace(/\s+/g, "")
+    // remove special characters
+    .replace(/[&='_+\-<>[\]{}|;^%*!]/g, "")
+    // remove multiple dots
+    .replace(/\.{2,}/g, "")
+    // remove multiple hyphens
+    .replace(/[^a-zA-Z0-9!@#%^()=+`~\\]/g, "");
+};
+
+export const onInputRemoveSpace = (e: ChangeEvent<HTMLInputElement>) => {
+  e.target.value = e.target.value.replace(/\s+/g, "");
+};
+
+export const onInputRemoveSpecialChars = (e: ChangeEvent<HTMLInputElement>) => {
+  e.target.value = e.target.value.replace(/[&='_+\-<>[\]{}|;^%*!]/g, "");
+};
+
+export const onInputRemoveSpaceAndSpecialChars = (
+  e: ChangeEvent<HTMLInputElement>
+) => {
+  e.target.value = e.target.value
+    .replace(/\s+/g, "")
+    .replace(/[&='_+\-<>[\]{}|;^%*!]/g, "");
 };

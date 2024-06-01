@@ -12,23 +12,12 @@ import { cn } from "@/lib/utils";
 export interface ModalProps {
   title: string;
   children?: React.ReactNode;
-  show: boolean;
-  setShow: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
   innerClass?: string;
 }
 
 const Modal = (props: ModalProps) => {
-  const { title, children, innerClass, show, setShow } = props;
-
-  if (!show) return;
-
-  const handleClose = () => {
-    setShow(false);
-  };
-
-  const handleOpen = () => {
-    setShow(true);
-  };
+  const { title, children, innerClass, onClose } = props;
 
   return (
     <div className="fixed inset-0 h-screen w-full bg-black/40 z-10 flex items-center justify-center">
@@ -43,7 +32,7 @@ const Modal = (props: ModalProps) => {
           <h2 className="text-xl font-semibold ">{title}</h2>
           <div
             className="cursor-pointer hover:scale-110 transition duration-300"
-            onClick={handleClose}
+            onClick={onClose}
           >
             <FaX />
           </div>

@@ -24,7 +24,7 @@ interface FirstTodoFormProps {
   userId: string;
 }
 
-const initialState: FormState = {
+const initialState: TFormActionState = {
   message: "",
   error: false,
 };

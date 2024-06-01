@@ -1,12 +1,13 @@
-declare type FormState = {
+declare type TFormActionState = {
   message: string;
   error: boolean;
 };
 
-declare type IAddTodoByModal = {
+declare type ITodoByModal = {
+  id?: string | undefined;
+  description?: string | undefined;
+  tags?: string | undefined;
   title: string;
   priority: string;
   status: string;
-  description?: string;
-  tags?: string;
 };

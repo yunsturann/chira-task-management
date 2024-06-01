@@ -8,16 +8,15 @@ type Params = {
   };
 };
 
-export async function PUT(request: NextRequest, { params }: Params) {
-  const newStatus = request.nextUrl.searchParams.get("status");
-
+export async function DELETE(request: NextRequest, { params }: Params) {
+  console.log(params.id);
   try {
     await connectToDatabase();
 
-    await Todo.findByIdAndUpdate(params.id, { status: newStatus });
+    await Todo.findByIdAndDelete(params.id);
 
     return NextResponse.json(
-      { message: "Task status updated successfully" },
+      { message: "Task deleted successfully" },
       { status: 200 }
     );
   } catch (error: any) {

@@ -7,7 +7,12 @@ import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import toast from "react-hot-toast";
 
 // ** Types
-import { ITodo, ITodoResponse, TodoStatus } from "@/types/model.types";
+import {
+  ITodo,
+  ITodoResponse,
+  ITodoStatusIndexRequest,
+  TodoStatus,
+} from "@/types/model.types";
 
 // ** Icons
 import { FaPlus } from "react-icons/fa";
@@ -29,15 +34,12 @@ const Board = (props: BoardProps) => {
   const [todos, setTodos] = useState<ITodoResponse>(tasks);
   const [showAddTodoModal, setShowAddTodoModal] = useState(false);
 
-  useEffect(() => {}, []);
-
   // ** Add new todo handler
-  const handleAddTodo = async (formData: IAddTodoByModal) => {
-    const tags = formData.tags?.split(" ").map((tag) => tag.trim());
-
+  const handleAddTodo = async (formData: ITodoByModal) => {
+    console.log(formData);
+    return;
     const newTodo = {
       ...formData,
-      tags,
       user: userId,
     };
 
@@ -54,10 +56,16 @@ const Board = (props: BoardProps) => {
         throw new Error("Failed to add todo");
       }
 
-      const data = await response.json();
+      const data: ITodo = await response.json();
 
-      // setTodos([...todos, data]);
+      setTodos({
+        ...todos,
+        [data.status]: [...todos[data.status], data],
+      });
+
       toast.success("Todo added successfully");
+
+      setShowAddTodoModal(false);
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -65,8 +73,8 @@ const Board = (props: BoardProps) => {
 
   // ** Drag and Drop Handler
   const onDragEnd = async (result: DropResult) => {
-    const { destination, source, draggableId } = result;
-    console.log(result);
+    const { destination, source } = result;
+
     // If the task is dropped outside the droppable area
     if (!destination) return;
 
@@ -79,6 +87,8 @@ const Board = (props: BoardProps) => {
 
     // Find the dragged task
     const draggedTask = todos[source.droppableId as TodoStatus][source.index];
+
+    let updatedTodos: ITodoStatusIndexRequest[] = [];
 
     // If the task is dropped in the same column
     if (source.droppableId === destination.droppableId) {
@@ -93,6 +103,15 @@ const Board = (props: BoardProps) => {
       setTodos({
         ...todos,
         [source.droppableId as TodoStatus]: newTodos,
+      });
+
+      // Update the index of all the tasks in the same column
+      newTodos.forEach((task, index) => {
+        updatedTodos.push({
+          _id: task._id,
+          status: source.droppableId as TodoStatus,
+          index,
+        });
       });
     } else {
       const sourceTodos = todos[source.droppableId as TodoStatus];
@@ -109,30 +128,33 @@ const Board = (props: BoardProps) => {
         [source.droppableId as TodoStatus]: sourceTodos || [],
         [destination.droppableId as TodoStatus]: destinationTodos || [],
       });
+
+      // Update the index of all the tasks in the source column
+      sourceTodos.forEach((task, index) => {
+        updatedTodos.push({
+          _id: task._id,
+          status: source.droppableId as TodoStatus,
+          index,
+        });
+      });
+
+      destinationTodos.forEach((task, index) => {
+        updatedTodos.push({
+          _id: task._id,
+          status: destination.droppableId as TodoStatus,
+          index,
+        });
+      });
     }
 
-    return;
-
-    // Update the status of the dragged task
-    let updatedStatus = destination.droppableId;
-
-    // Update the status of the dragged task in the state
-    const updatedTodos = todos.map((todo) => {
-      if (todo._id === draggableId) {
-        return {
-          ...todo,
-          status: updatedStatus,
-        };
-      }
-
-      return todo;
-    });
-
-    setTodos(updatedTodos as ITodo[]);
-
+    // Update the task status in the database
     try {
-      await fetch(`/api/todo/${draggedTask?._id}?status=${updatedStatus}`, {
+      await fetch(`/api/todo`, {
         method: "PUT",
+        body: JSON.stringify(updatedTodos),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
     } catch (error) {
       toast.error("Failed to update task status");
@@ -160,25 +182,30 @@ const Board = (props: BoardProps) => {
             title="Todo"
             droppableId={TodoStatus.TODO}
             tasks={todos.todo}
+            setAllTodos={setTodos}
           />
           <Column
             title="In Progress"
             droppableId={TodoStatus.IN_PROGRESS}
             tasks={todos.in_progress}
+            setAllTodos={setTodos}
           />
           <Column
             title="Done"
             droppableId={TodoStatus.DONE}
             tasks={todos.done}
+            setAllTodos={setTodos}
           />
         </div>
       </DragDropContext>
-      <TodoFormModal
-        title="Add Todo"
-        show={showAddTodoModal}
-        setShow={setShowAddTodoModal}
-        onSubmit={handleAddTodo}
-      />
+      {/* Add Todo Modal */}
+      {showAddTodoModal && (
+        <TodoFormModal
+          title="Add Todo"
+          onClose={() => setShowAddTodoModal(false)}
+          onSubmit={handleAddTodo}
+        />
+      )}
     </section>
   );
 };
