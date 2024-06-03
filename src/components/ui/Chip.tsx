@@ -20,6 +20,7 @@ const Chip = forwardRef<HTMLDivElement, ChipProps>((props, ref) => {
     <div
       ref={ref}
       {...rest}
+      draggable
       className={cn(
         "py-1 px-2.5 rounded-full bg-gray-200 text-black text-sm tracking-tighter",
         className,

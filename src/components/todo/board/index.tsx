@@ -36,8 +36,6 @@ const Board = (props: BoardProps) => {
 
   // ** Add new todo handler
   const handleAddTodo = async (formData: ITodoByModal) => {
-    console.log(formData);
-    return;
     const newTodo = {
       ...formData,
       user: userId,

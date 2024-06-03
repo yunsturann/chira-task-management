@@ -9,7 +9,6 @@ type Params = {
 };
 
 export async function DELETE(request: NextRequest, { params }: Params) {
-  console.log(params.id);
   try {
     await connectToDatabase();
 

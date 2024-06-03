@@ -39,15 +39,6 @@ const TodoItem = (props: TodoItemProps) => {
     setIsDropdownOpen(false);
   });
 
-  const initialDataForModal = {
-    id: task._id,
-    title: task.title,
-    priority: task.priority,
-    status: task.status,
-    description: task.description,
-    tags: task.tags.join(","),
-  };
-
   const handleDelete = async () => {
     // if (!confirm("Are you sure you want to delete this task?")) return;
     try {
@@ -78,7 +69,9 @@ const TodoItem = (props: TodoItemProps) => {
     setIsDropdownOpen(false);
   };
 
-  const handleUpdate = async (formData: ITodoByModal) => {};
+  const handleUpdate = async (formData: ITodoByModal) => {
+    console.log(formData);
+  };
 
   return (
     <>
@@ -159,7 +152,14 @@ const TodoItem = (props: TodoItemProps) => {
         <TodoFormModal
           title="Update Todo"
           onClose={() => setShowUpdateTodoModal(false)}
-          initialData={initialDataForModal}
+          initialData={{
+            id: task._id,
+            title: task.title,
+            priority: task.priority,
+            status: task.status,
+            description: task.description,
+            tags: task.tags.length > 0 ? task.tags.join(" ") + " " : "",
+          }}
           onSubmit={handleUpdate}
         />
       )}

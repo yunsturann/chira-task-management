@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
     await connectToDatabase();
 
-    console.log(body);
+    body.tags = body.tags.trim() !== "" ? body.tags.trim().split(" ") : [];
 
     const newTodo = await Todo.create(body);
 

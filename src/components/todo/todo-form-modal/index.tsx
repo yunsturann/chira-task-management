@@ -19,6 +19,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { onInputRemoveSpecialChars } from "@/lib/utils";
 import { useState } from "react";
 import Chip from "@/components/ui/Chip";
+import InputTags from "@/components/ui/InputTags";
 
 // ** Props
 interface TodoModalProps extends ModalProps {
@@ -43,31 +44,15 @@ const schema = yup.object().shape({
 const TodoFormModal = (props: TodoModalProps) => {
   const { onSubmit, initialData, ...rest } = props;
 
-  const [tags, setTags] = useState<string[]>([]);
-
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: initialData,
   });
-
-  const handleOnInputTags = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const lastChar = value.slice(-1);
-
-    console.log(value);
-
-    if (lastChar === " ") {
-      const lastWord = value
-        .slice(0, value.length - 1)
-        .split(" ")
-        .pop();
-      return lastWord && setTags([...tags, lastWord]);
-    }
-  };
 
   return (
     <Modal {...rest} innerClass="max-w-[600px]">
@@ -112,21 +97,13 @@ const TodoFormModal = (props: TodoModalProps) => {
         />
 
         {/* Tags */}
-        <div>
-          <Input
-            {...register("tags")}
-            label={"Tags"}
-            placeholder="Enter #tags..."
-            onInput={handleOnInputTags}
-          />
-          <div className="flex gap-2 mt-2">
-            {tags.map((tag, index) => (
-              <Chip key={index} className="rounded-lg">
-                {tag}
-              </Chip>
-            ))}
-          </div>
-        </div>
+        <InputTags
+          {...register("tags")}
+          label={"Tags"}
+          placeholder="Enter #tags..."
+          setValue={setValue}
+          initialTags={initialData?.tags}
+        />
 
         {/* Form Actions */}
         <div className="flex flex-col sm:flex-row justify-between gap-x-12 gap-y-2 mt-4">
