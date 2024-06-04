@@ -1,11 +1,11 @@
 "use client";
-import React, { Dispatch, SetStateAction, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 // ** Icons
 import { FaRocket } from "react-icons/fa";
 
 // ** Types
-import { ITodo, ITodoResponse } from "@/types/model.types";
+import { ITodo, ITodoResponse, TodoStatus } from "@/types/model.types";
 
 // ** Third Party Imports
 import { Draggable } from "@hello-pangea/dnd";
@@ -20,19 +20,25 @@ import useClickOutside from "@/hooks/use-click-outside";
 // ** Utils
 import { formatTimestamp } from "@/lib/utils";
 import TodoFormModal from "../todo-form-modal";
+import { ITodoContext, TodoContext } from "@/context/all-todos-context";
 
 interface TodoItemProps {
   task: ITodo;
   index: number;
-  setAllTodos: Dispatch<SetStateAction<ITodoResponse>>;
 }
 
 const TodoItem = (props: TodoItemProps) => {
-  const { task, index, setAllTodos } = props;
+  const { task, index } = props;
 
+  // ** States
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showUpdateTodoModal, setShowUpdateTodoModal] = useState(false);
 
+  // ** Context
+  const { setTodos: setAllTodos, todos: allTodos } =
+    useContext<ITodoContext>(TodoContext);
+
+  // ** Refs
   const dropdownRef = useRef<HTMLUListElement | null>(null);
 
   useClickOutside(dropdownRef, () => {
@@ -58,6 +64,7 @@ const TodoItem = (props: TodoItemProps) => {
         [task.status]: prev[task.status].filter(
           (todo) => todo._id !== task._id
         ),
+        length: prev.length - 1,
       }));
     } catch (error: any) {
       toast.error(error.message);
@@ -70,7 +77,46 @@ const TodoItem = (props: TodoItemProps) => {
   };
 
   const handleUpdate = async (formData: ITodoByModal) => {
-    console.log(formData);
+    try {
+      const response = await fetch(`/api/todo/${task._id}`, {
+        method: "PUT",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update todo");
+      }
+
+      const data = await response.json();
+
+      toast.success(data.message);
+
+      if (formData.status === task.status) {
+        setAllTodos({
+          ...allTodos,
+          [task.status]: allTodos[task.status].map((todo) =>
+            todo._id === task._id ? data.updatedTodo : todo
+          ),
+        });
+      } else {
+        const updatedTodos = {
+          ...allTodos,
+          [task.status]: allTodos[task.status].filter(
+            (todo) => todo._id !== task._id
+          ),
+        };
+
+        updatedTodos[formData.status as TodoStatus].push(data.updatedTodo);
+
+        setAllTodos(updatedTodos);
+      }
+      setShowUpdateTodoModal(false);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (

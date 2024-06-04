@@ -21,6 +21,9 @@ import { FaPlus } from "react-icons/fa";
 import Column from "./Column";
 import TodoFormModal from "../todo-form-modal";
 
+// ** Context
+import { TodoContext } from "@/context/all-todos-context";
+
 interface BoardProps {
   boardTitle: string;
   tasks: ITodoResponse;
@@ -118,6 +121,9 @@ const Board = (props: BoardProps) => {
       // remove the task from the source column
       sourceTodos.splice(source.index, 1);
 
+      // Update the status of the dragged task
+      draggedTask.status = destination.droppableId as TodoStatus;
+
       // add the task to the destination column
       destinationTodos.splice(destination.index, 0, draggedTask);
 
@@ -161,50 +167,49 @@ const Board = (props: BoardProps) => {
   };
 
   return (
-    <section>
-      <h1 className="text-3xl font-bold tracking-tighter text-center mb-10">
-        {boardTitle}
-      </h1>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {/* Add new todo Button */}
-        <button
-          className="fixed bottom-[3%] right-[3%] lg:bottom-[5%] lg:right-[5%] size-12 bg-gray-800 dark:bg-gray-200 text-white dark:text-black text-xl rounded-full shadow-md shadow-gray-600 flex items-center justify-center hover:opacity-80 transition duration-300"
-          title="Add New Todo"
-          onClick={() => setShowAddTodoModal(true)}
-        >
-          <FaPlus />
-        </button>
+    <TodoContext.Provider value={{ todos, setTodos }}>
+      <section>
+        <h1 className="text-3xl font-bold tracking-tighter text-center mb-10">
+          {boardTitle}
+        </h1>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {/* Add new todo Button */}
+          <button
+            className="fixed bottom-[3%] right-[3%] lg:bottom-[5%] lg:right-[5%] size-12 bg-gray-800 dark:bg-gray-200 text-white dark:text-black text-xl rounded-full shadow-md shadow-gray-600 flex items-center justify-center hover:opacity-80 transition duration-300"
+            title="Add New Todo"
+            onClick={() => setShowAddTodoModal(true)}
+          >
+            <FaPlus />
+          </button>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <Column
-            title="Todo"
-            droppableId={TodoStatus.TODO}
-            tasks={todos.todo}
-            setAllTodos={setTodos}
+          <div className="grid lg:grid-cols-3 gap-8">
+            <Column
+              title="Todo"
+              droppableId={TodoStatus.TODO}
+              tasks={todos.todo}
+            />
+            <Column
+              title="In Progress"
+              droppableId={TodoStatus.IN_PROGRESS}
+              tasks={todos.in_progress}
+            />
+            <Column
+              title="Done"
+              droppableId={TodoStatus.DONE}
+              tasks={todos.done}
+            />
+          </div>
+        </DragDropContext>
+        {/* Add Todo Modal */}
+        {showAddTodoModal && (
+          <TodoFormModal
+            title="Add Todo"
+            onClose={() => setShowAddTodoModal(false)}
+            onSubmit={handleAddTodo}
           />
-          <Column
-            title="In Progress"
-            droppableId={TodoStatus.IN_PROGRESS}
-            tasks={todos.in_progress}
-            setAllTodos={setTodos}
-          />
-          <Column
-            title="Done"
-            droppableId={TodoStatus.DONE}
-            tasks={todos.done}
-            setAllTodos={setTodos}
-          />
-        </div>
-      </DragDropContext>
-      {/* Add Todo Modal */}
-      {showAddTodoModal && (
-        <TodoFormModal
-          title="Add Todo"
-          onClose={() => setShowAddTodoModal(false)}
-          onSubmit={handleAddTodo}
-        />
-      )}
-    </section>
+        )}
+      </section>
+    </TodoContext.Provider>
   );
 };
 

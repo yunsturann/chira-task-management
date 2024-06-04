@@ -109,7 +109,7 @@ const TodoFormModal = (props: TodoModalProps) => {
         <div className="flex flex-col sm:flex-row justify-between gap-x-12 gap-y-2 mt-4">
           <Button onClick={rest.onClose}>Close</Button>
           <Button color="blue" type="submit" disabled={isSubmitting}>
-            Create
+            {initialData ? "Update" : "Create"}
           </Button>
         </div>
       </form>

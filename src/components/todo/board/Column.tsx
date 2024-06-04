@@ -19,11 +19,10 @@ interface ColumnProps {
   title: string;
   tasks: ITodo[];
   droppableId: string;
-  setAllTodos: Dispatch<SetStateAction<ITodoResponse>>;
 }
 
 const Column = (props: ColumnProps) => {
-  const { title, tasks, droppableId, setAllTodos } = props;
+  const { title, tasks, droppableId } = props;
 
   return (
     <div>
@@ -41,12 +40,7 @@ const Column = (props: ColumnProps) => {
             className="bg-gray-200 dark:bg-gray-700 rounded-lg px-4 py-6 space-y-3 shadow-md"
           >
             {tasks?.map((task, index) => (
-              <TodoItem
-                key={task._id}
-                task={task}
-                index={index}
-                setAllTodos={setAllTodos}
-              />
+              <TodoItem key={task._id} task={task} index={index} />
             ))}
             {provided.placeholder}
           </div>
