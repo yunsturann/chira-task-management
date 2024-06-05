@@ -13,6 +13,9 @@ const config: Config = {
         "slogan-light": "url('/images/slogan-bg.jpg')",
         "slogan-dark": "url('/images/slogan-dark.jpg')",
       },
+      fontFamily: {
+        ubuntu: ["Ubuntu", "sans-serif"],
+      },
     },
   },
   plugins: [],

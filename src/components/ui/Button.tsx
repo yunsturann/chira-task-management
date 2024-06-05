@@ -7,12 +7,15 @@ import { useFormStatus } from "react-dom";
 import { cn } from "@/lib/utils";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: "gray" | "blue";
+  color?: "gray" | "blue" | "dark" | "green";
 }
 
 const colors = {
   gray: "bg-gray-100 border-gray-300 text-black hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-500 dark:text-white dark:hover:bg-gray-600 focus:ring-gray-500 dark:focus:ring-gray-500",
   blue: "bg-blue-500 border-blue-600 text-white hover:bg-blue-600 focus:ring-blue-500 dark:bg-blue-500 dark:border-blue-600 dark:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-500",
+  dark: "bg-gray-800 border-gray-900 text-white hover:bg-gray-700 focus:ring-gray-500 dark:bg-gray-800 dark:border-gray-900 dark:text-white dark:hover:bg-gray-900 dark:focus:ring-gray-500",
+  green:
+    "bg-green-500 border-green-600 text-white hover:bg-green-600 focus:ring-green-500 dark:bg-green-500 dark:border-green-600 dark:text-white dark:hover:bg-green-600 dark:focus:ring-green-500",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {

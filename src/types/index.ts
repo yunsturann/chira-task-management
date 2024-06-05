@@ -6,8 +6,11 @@ declare type TFormActionState = {
 declare type ITodoByModal = {
   id?: string | undefined;
   description?: string | undefined;
-  tags?: string | undefined;
   title: string;
   priority: string;
   status: string;
+  tags?: {
+    tag: string;
+    color: string;
+  }[];
 };

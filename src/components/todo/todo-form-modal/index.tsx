@@ -6,20 +6,18 @@ import Modal, { ModalProps } from "@/components/ui/Modal";
 import SelectBox from "@/components/ui/SelectBox";
 import TextArea from "@/components/ui/TextArea";
 import Button from "@/components/ui/Button";
+import InputTags from "@/components/ui/InputTags";
 
 // ** Constants
 import { todoPriorityArray, todoStatusArray } from "@/constants";
 
 // ** Third Party Imports
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 // ** Utils
 import { onInputRemoveSpecialChars } from "@/lib/utils";
-import { useState } from "react";
-import Chip from "@/components/ui/Chip";
-import InputTags from "@/components/ui/InputTags";
 
 // ** Props
 interface TodoModalProps extends ModalProps {
@@ -35,10 +33,21 @@ const schema = yup.object().shape({
     .required("Title is required")
     .max(50, "Max 50 characters")
     .min(3, "Min 3 characters"),
-  priority: yup.string().required("Priority is required"),
+  priority: yup
+    .string()
+    // .oneOf(Object.values(TodoPriority), "Invalid priority")
+    .required("Priority is required"),
   status: yup.string().required("Status is required"),
   description: yup.string().max(255, "Max 255 characters"),
-  tags: yup.string(),
+  tags: yup
+    .array()
+    .of(
+      yup.object().shape({
+        tag: yup.string().required("Tag is required"),
+        color: yup.string().required("Color is required"),
+      })
+    )
+    .optional(),
 });
 
 const TodoFormModal = (props: TodoModalProps) => {
@@ -53,12 +62,17 @@ const TodoFormModal = (props: TodoModalProps) => {
     resolver: yupResolver(schema),
     defaultValues: initialData,
   });
-
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
   return (
     <Modal {...rest} innerClass="max-w-[600px]">
       <form
         className="flex flex-col gap-y-4 px-2 py-1"
         onSubmit={handleSubmit(onSubmit)}
+        onKeyDown={handleKeyPress}
       >
         {/* Title */}
         <Input
@@ -97,16 +111,16 @@ const TodoFormModal = (props: TodoModalProps) => {
         />
 
         {/* Tags */}
+
         <InputTags
-          {...register("tags")}
-          label={"Tags"}
+          label={"Tag"}
           placeholder="Enter #tags..."
           setValue={setValue}
           initialTags={initialData?.tags}
         />
 
         {/* Form Actions */}
-        <div className="flex flex-col sm:flex-row justify-between gap-x-12 gap-y-2 mt-4">
+        <div className="flex flex-col-reverse sm:flex-row justify-between gap-x-12 gap-y-2 mt-4">
           <Button onClick={rest.onClose}>Close</Button>
           <Button color="blue" type="submit" disabled={isSubmitting}>
             {initialData ? "Update" : "Create"}

@@ -18,7 +18,12 @@ const TodoSchema = new Schema<ITodo>(
       required: true,
     },
     tags: {
-      type: [String],
+      type: [
+        {
+          tag: { type: String },
+          color: { type: String },
+        },
+      ],
     },
     status: {
       type: String,

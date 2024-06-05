@@ -32,7 +32,10 @@ export interface ITodo {
   title: string;
   description: string;
   priority: "low" | "medium" | "high";
-  tags: string[];
+  tags: {
+    tag: string;
+    color: string;
+  }[];
   status: "todo" | "in_progress" | "done";
   user: Schema.Types.ObjectId;
   createdAt: string;
