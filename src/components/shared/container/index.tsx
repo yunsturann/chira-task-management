@@ -18,7 +18,7 @@ const Container = (props: ContainerProps) => {
       className={cn(
         "max-w-7xl w-full mx-auto px-4 lg:px-8",
         {
-          " py-6 lg:py-12": paddingVertical,
+          "py-6 lg:py-12": paddingVertical,
         },
         className
       )}

@@ -20,12 +20,16 @@ const Modal = (props: ModalProps) => {
   const { title, children, innerClass, onClose } = props;
 
   return (
-    <div className="fixed inset-0 h-screen w-full bg-black/40 z-10 flex items-center justify-center">
+    <div
+      className="fixed inset-0 h-screen w-full bg-black/40 z-10 flex items-center justify-center"
+      onClick={onClose}
+    >
       <div
         className={cn(
           "z-20 flex flex-col bg-white dark:bg-gray-700 min-w-[320px] w-[94%] lg:w-1/2 min-h-[320px] rounded-xl p-4 sm:p-6",
           innerClass
         )}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
         <header className="flex justify-between gap-4 items-center">
@@ -38,7 +42,9 @@ const Modal = (props: ModalProps) => {
           </div>
         </header>
         {/* Modal Content */}
-        <div className="flex-1 overflow-auto max-h-[80vh] mt-5">{children}</div>
+        <div className="flex-1 overflow-y-auto max-h-[80vh] mt-5">
+          {children}
+        </div>
       </div>
     </div>
   );

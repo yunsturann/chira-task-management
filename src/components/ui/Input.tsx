@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   } = props;
 
   return (
-    <div>
+    <div className="flex-1">
       {props.label && (
         <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">
           {props.label} {necessary && <span className="text-red-500">*</span>}

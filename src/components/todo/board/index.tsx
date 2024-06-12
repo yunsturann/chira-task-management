@@ -37,41 +37,6 @@ const Board = (props: BoardProps) => {
   const [todos, setTodos] = useState<ITodoResponse>(tasks);
   const [showAddTodoModal, setShowAddTodoModal] = useState(false);
 
-  // ** Add new todo handler
-  const handleAddTodo = async (formData: ITodoByModal) => {
-    const newTodo = {
-      ...formData,
-      user: userId,
-    };
-
-    try {
-      const response = await fetch("/api/todo", {
-        method: "POST",
-        body: JSON.stringify(newTodo),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add todo");
-      }
-
-      const data: ITodo = await response.json();
-
-      setTodos({
-        ...todos,
-        [data.status]: [...todos[data.status], data],
-      });
-
-      toast.success("Todo added successfully");
-
-      setShowAddTodoModal(false);
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
-
   // ** Drag and Drop Handler
   const onDragEnd = async (result: DropResult) => {
     const { destination, source } = result;
@@ -167,7 +132,7 @@ const Board = (props: BoardProps) => {
   };
 
   return (
-    <TodoContext.Provider value={{ todos, setTodos }}>
+    <TodoContext.Provider value={{ todos, setTodos, userId }}>
       <section>
         <h1 className="text-3xl font-bold tracking-tighter text-center mb-10">
           {boardTitle}
@@ -205,7 +170,6 @@ const Board = (props: BoardProps) => {
           <TodoFormModal
             title="Add Todo"
             onClose={() => setShowAddTodoModal(false)}
-            onSubmit={handleAddTodo}
           />
         )}
       </section>

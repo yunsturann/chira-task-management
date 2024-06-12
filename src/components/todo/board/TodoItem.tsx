@@ -19,14 +19,10 @@ import { formatTimestamp } from "@/lib/utils";
 import { ITodoContext, TodoContext } from "@/context/all-todos-context";
 
 // ** Custom Components
-import TodoFormModal from "../todo-form-modal";
-
+import TodoFormModal, { TodoFormType } from "../todo-form-modal";
 import AlertDialog from "@/components/ui/AlertDialog";
 import Dropdown, { DropdownItem } from "@/components/ui/Dropdown";
-
-const Chip = dynamic(() => import("@/components/ui/Chip"), {
-  ssr: false,
-});
+import Chip from "@/components/ui/Chip";
 
 interface TodoItemProps {
   task: ITodo;
@@ -75,11 +71,29 @@ const TodoItem = (props: TodoItemProps) => {
     setIsDropdownOpen(false);
   };
 
-  const handleUpdate = async (formData: ITodoByModal) => {
+  const handleCompleteTodo = async () => {
+    if (task.status === TodoStatus.DONE)
+      return toast.error("Task already completed");
+
+    setIsDropdownOpen(false);
+
+    const formData: TodoFormType = {
+      title: task.title,
+      description: task.description,
+      status:
+        task.status === TodoStatus.IN_PROGRESS
+          ? TodoStatus.DONE
+          : TodoStatus.IN_PROGRESS,
+      priority: task.priority,
+    };
+
     try {
-      const response = await fetch(`/api/todo/${task._id}`, {
+      const response = await fetch(`/api/todo/${task!._id}`, {
         method: "PUT",
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          tags: task.tags,
+        }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -93,28 +107,18 @@ const TodoItem = (props: TodoItemProps) => {
 
       toast.success(data.message);
 
-      if (formData.status === task.status) {
-        setAllTodos({
-          ...allTodos,
-          [task.status]: allTodos[task.status].map((todo) =>
-            todo._id === task._id ? data.updatedTodo : todo
-          ),
-        });
-      } else {
-        const updatedTodos = {
-          ...allTodos,
-          [task.status]: allTodos[task.status].filter(
-            (todo) => todo._id !== task._id
-          ),
-        };
+      const updatedTodos = {
+        ...allTodos,
+        [task!.status]: allTodos[task!.status].filter(
+          (todo) => todo._id !== task!._id
+        ),
+      };
 
-        updatedTodos[formData.status as TodoStatus].push(data.updatedTodo);
+      updatedTodos[formData.status as TodoStatus].push(data.updatedTodo);
 
-        setAllTodos(updatedTodos);
-      }
-      setShowUpdateTodoModal(false);
-    } catch (error: any) {
-      toast.error(error.message);
+      setAllTodos(updatedTodos);
+    } catch (error) {
+      toast.error((error as Error).message);
     }
   };
 
@@ -154,28 +158,41 @@ const TodoItem = (props: TodoItemProps) => {
                 >
                   Update <GrUpdate />
                 </DropdownItem>
-                <DropdownItem className="flex items-center justify-between">
+                <DropdownItem
+                  onClick={handleCompleteTodo}
+                  className="flex items-center justify-between"
+                >
                   Complete
                   <FaChevronRight />
                 </DropdownItem>
               </Dropdown>
             </div>
             {/* Card Body */}
-            <div className="space-y-2">
+            <div>
               <h3 className="font-medium">{task.title}</h3>
+              {/* Description */}
+              {task.description && (
+                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">
+                  {task.description}
+                </p>
+              )}
               {/* Tags */}
               {task.tags && task.tags.length > 0 && (
-                <div className="flex gap-x-2">
-                  {task.tags.map((tag, index) => (
-                    <Chip key={index} color="random" className="rounded-lg">
-                      {tag.tag}
+                <div className="flex flex-wrap gap-x-2 gap-y-1 mt-2">
+                  {task.tags.map(({ color, tag }, index) => (
+                    <Chip
+                      key={index}
+                      className="rounded-lg"
+                      style={{ background: color }}
+                    >
+                      {tag}
                     </Chip>
                   ))}
                 </div>
               )}
 
               {/* Date */}
-              <p className="text-gray-400 text-xs">
+              <p className="text-gray-400 text-xs mt-2">
                 {formatTimestamp(task.createdAt, true)}
               </p>
             </div>
@@ -189,15 +206,7 @@ const TodoItem = (props: TodoItemProps) => {
         <TodoFormModal
           title="Update Todo"
           onClose={() => setShowUpdateTodoModal(false)}
-          initialData={{
-            id: task._id,
-            title: task.title,
-            priority: task.priority,
-            status: task.status,
-            description: task.description,
-            tags: task.tags,
-          }}
-          onSubmit={handleUpdate}
+          task={task}
         />
       )}
       {/* Delete Alert Dialog */}

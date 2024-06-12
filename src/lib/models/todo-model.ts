@@ -17,14 +17,13 @@ const TodoSchema = new Schema<ITodo>(
       enum: ["low", "medium", "high"],
       required: true,
     },
-    tags: {
-      type: [
-        {
-          tag: { type: String },
-          color: { type: String },
-        },
-      ],
-    },
+    tags: [
+      {
+        _id: false,
+        tag: { type: String, required: true },
+        color: { type: String, required: true },
+      },
+    ],
     status: {
       type: String,
       enum: ["todo", "in_progress", "done"],

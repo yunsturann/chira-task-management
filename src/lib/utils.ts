@@ -64,3 +64,12 @@ export const onInputRemoveSpaceAndSpecialChars = (
     .replace(/\s+/g, "")
     .replace(/[&='_+\-<>[\]{}|;^%*!]/g, "");
 };
+
+export const onInputAllowOnlyHex = (e: ChangeEvent<HTMLInputElement>) => {
+  // Allow only characters valid in a hex code: 0-9, a-f, A-F, and optionally the # symbol at the start.
+  e.target.value = e.target.value
+    // First, ensure the # is allowed only at the beginning.
+    .replace(/(?!^)#/g, "")
+    // Then, remove any character that is not a hex digit.
+    .replace(/[^0-9a-fA-F#]+/g, "");
+};

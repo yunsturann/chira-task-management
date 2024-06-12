@@ -10,14 +10,7 @@ type Params = {
 };
 
 function validateBody(body: any) {
-  const requiredFields = [
-    "id",
-    "title",
-    "priority",
-    "status",
-    "description",
-    "tags",
-  ];
+  const requiredFields = ["title", "priority", "status", "description", "tags"];
 
   for (const field of requiredFields) {
     if (!body.hasOwnProperty(field)) {
@@ -52,8 +45,6 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     await connectToDatabase();
 
-    body.tags = body.tags.trim() !== "" ? body.tags.trim().split(" ") : [];
-
     const todo = (await Todo.findById(params.id)) as ITodo;
 
     // if the status is the same, update the task
@@ -83,7 +74,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     // Update the todo with the new status and index
     const updatedTodo = await Todo.findByIdAndUpdate(
-      body.id,
+      params.id,
       {
         ...body,
         index: count,
