@@ -1,20 +1,21 @@
 "use client";
 
-import React, {
-  Dispatch,
-  MouseEvent,
-  SetStateAction,
-  forwardRef,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, forwardRef, useState } from "react";
 
 // ** Custom Components
 import Chip from "./Chip";
 import Button from "./Button";
 import ColorPicker from "./ColorPicker";
 import Input from "./Input";
+
+// ** React Icons
 import { FaX } from "react-icons/fa6";
+
+// ** Third Party Libraries
 import toast from "react-hot-toast";
+
+// ** Utils
+import { onInputRemoveSpace } from "@/lib/utils";
 
 export interface ITag {
   tag: string;
@@ -35,10 +36,15 @@ const InputTags = forwardRef<HTMLInputElement, InputTagsProps>((props, ref) => {
   const handleAddTag = () => {
     if (tag === "") return toast.error("Tag is required to add!");
 
-    const isTagExists = tags.some((t) => t.tag === tag);
+    let tagWithHash = tag;
+
+    if (!tag.startsWith("#")) tagWithHash = `#${tag}`;
+
+    const isTagExists = tags.some((t) => t.tag === tagWithHash);
+
     if (isTagExists) return toast.error("Tag already exists!");
 
-    setTags([...tags, { tag, color: color || "#e2e8f0" }]);
+    setTags([...tags, { tag: tagWithHash, color: color || "#e2e8f0" }]);
     setTag("");
   };
 
@@ -53,6 +59,7 @@ const InputTags = forwardRef<HTMLInputElement, InputTagsProps>((props, ref) => {
         label="Add Tags with color"
         value={tag}
         onChange={(e) => setTag(e.target.value)}
+        onInput={onInputRemoveSpace}
       />
       {/* Tag Input  & Color & Add Button */}
       <div className="grid sm:grid-cols-2 items-end gap-x-4 gap-y-3">

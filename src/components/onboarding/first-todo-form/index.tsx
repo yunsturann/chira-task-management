@@ -44,7 +44,7 @@ const FirstTodoForm = (props: FirstTodoFormProps) => {
       toast.error(state.message);
     } else if (state.message) {
       toast.success(state.message);
-      router.replace("todo");
+      router.replace("/todo");
     }
   }, [state, router]);
 

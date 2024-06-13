@@ -64,13 +64,13 @@ export const todoPriorityArray = [
 ];
 
 export const colorPickerColors = [
-  ["#f8fafc", "#e2e8f0", "#9ca3af", "#111827"],
-  ["#fafafa", "#e5e5e5", "#a3a3a3", "#525252"],
-  ["#fee2e2", "#fca5a5", "#dc2626", "#7f1d1d"],
-  ["#fef9c3", "#fcd34d", "#f59e0b", "#9a3412"],
-  ["#ecfccb", "#bbf7d0", "#4ade80", "#15803d"],
-  ["#cffafe", "#bae6fd", "#38bdf8", "#0369a1"],
-  ["#faf5ff", "#e9d5ff", "#c084fc", "#9333ea"],
-  ["#fdf2f8", "#fbcfe8", "#f472b6", "#db2777"],
-  ["#ffe4e6", "#fecdd3", "#fb7185", "#e11d48"],
+  ["#ffffff", "#e2e8f0", "#cbd5e1", "#94a3b8"],
+  ["#fee2e2", "#fecaca", "#fca5a5", "#ef4444"],
+  ["#ffedd5", "#fed7aa", "#fdba74", "#fb923c"],
+  ["#fef9c3", "#fef08a", "#fde047", "#facc15"],
+  ["#bbf7d0", "#86efac", "#4ade80", "#22c55e"],
+  ["#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
+  ["#f5d0fe", "#d8b4fe", "#e879f9", "#d946ef"],
+  ["#fbcfe8", "#f9a8d4", "#f472b6", "#ec4899"],
+  ["#fecdd3", "#fda4af", "#fb7185", "#f43f5e"],
 ];
