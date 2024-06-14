@@ -37,7 +37,7 @@ export interface ITodo {
     color: string;
   }[];
   status: "todo" | "in_progress" | "done";
-  user: Schema.Types.ObjectId;
+  boardId: Schema.Types.ObjectId;
   createdAt: string;
   updatedAt: string;
   index: number;
@@ -55,4 +55,13 @@ export interface ITodoStatusIndexRequest {
   _id: string;
   status: TodoStatus;
   index: number;
+}
+
+export interface IBoard {
+  _id: string;
+  name: string;
+  userId: Schema.Types.ObjectId;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }

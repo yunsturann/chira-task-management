@@ -1,10 +1,9 @@
 "use client";
 
 // ** React Imports
-import { Dispatch, SetStateAction } from "react";
 
 // ** Types
-import { ITodo, ITodoResponse } from "@/types/model.types";
+import { ITodo } from "@/types/model.types";
 
 // ** Icons
 import { LuDot } from "react-icons/lu";

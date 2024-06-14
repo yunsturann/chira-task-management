@@ -12,15 +12,13 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 
 // ** Actions
-import { createTodoWithFormData } from "@/lib/actions/todo.actions";
-
-// ** Enums & Types
-import { TodoPriority } from "@/types/model.types";
+import { createBoardWithFormData } from "@/lib/actions/board.actions";
 
 // ** Third Party Imports
 import toast from "react-hot-toast";
+import { onInputRemoveSpecialChars } from "@/lib/utils";
 
-interface FirstTodoFormProps {
+interface FirstBoardFormProps {
   userId: string;
 }
 
@@ -29,13 +27,13 @@ const initialState: TFormActionState = {
   error: false,
 };
 
-const FirstTodoForm = (props: FirstTodoFormProps) => {
+const FirstBoardForm = (props: FirstBoardFormProps) => {
   const { userId } = props;
 
   const router = useRouter();
 
   const [state, formAction] = useFormState(
-    createTodoWithFormData,
+    createBoardWithFormData,
     initialState
   );
 
@@ -51,18 +49,18 @@ const FirstTodoForm = (props: FirstTodoFormProps) => {
   return (
     <form action={formAction}>
       <Input type="hidden" value={userId} name="userId" />
-      <Input type="hidden" value={TodoPriority.LOW} name="priority" />
       <Input
-        isUnderlined
-        placeholder="Enter your first todo..."
-        className="text-2xl mb-8"
+        name="name"
+        placeholder="Create your first board..."
         required
-        type="text"
-        name="title"
+        maxLength={20}
+        className="text-2xl mb-8"
+        isUnderlined
+        onInput={onInputRemoveSpecialChars}
       />
       <Button>Continue</Button>
     </form>
   );
 };
 
-export default FirstTodoForm;
+export default FirstBoardForm;

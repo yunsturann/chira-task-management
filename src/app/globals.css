@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.flex_between {
+  @apply flex justify-between items-center;
+}
+
 /* =====  CLERK OVERRIDES */
 .cl-userButtonBox {
   display: flex;

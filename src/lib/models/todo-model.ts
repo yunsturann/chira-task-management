@@ -33,9 +33,9 @@ const TodoSchema = new Schema<ITodo>(
     index: {
       type: Number,
     },
-    user: {
+    boardId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Board",
       required: true,
     },
   },
@@ -47,7 +47,7 @@ const TodoSchema = new Schema<ITodo>(
 TodoSchema.pre("save", async function (next) {
   if (this.isNew) {
     const lastTodo = await (this.constructor as ITodoModel)
-      .findOne({ user: this.user, status: this.status })
+      .findOne({ boardId: this.boardId, status: this.status })
       .sort("-index");
     if (lastTodo) {
       this.index = lastTodo.index + 1;

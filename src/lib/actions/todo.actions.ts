@@ -29,16 +29,16 @@ export async function createTodoWithFormData(
   }
 }
 
-// Read By UserId
-export async function getTodosByUserId(userId: string) {
+// Read By boardId
+export async function getTodosByBoardId(boardId: string) {
   try {
     await connectToDatabase();
 
     // Start all queries concurrently
     const [todo, in_progress, done]: ITodo[][] = await Promise.all([
-      Todo.find({ user: userId, status: "todo" }).sort("index"),
-      Todo.find({ user: userId, status: "in_progress" }).sort("index"),
-      Todo.find({ user: userId, status: "done" }).sort("index"),
+      Todo.find({ boardId, status: "todo" }).sort("index"),
+      Todo.find({ boardId, status: "in_progress" }).sort("index"),
+      Todo.find({ boardId, status: "done" }).sort("index"),
     ]);
 
     const length = todo.length + in_progress.length + done.length;

@@ -62,13 +62,17 @@ export async function PUT(request: NextRequest, { params }: Params) {
     // find the todos bigger than the current index and decrement them
 
     await Todo.updateMany(
-      { user: todo.user, status: todo.status, index: { $gt: todo.index } },
+      {
+        boardId: todo.boardId,
+        status: todo.status,
+        index: { $gt: todo.index },
+      },
       { $inc: { index: -1 } }
     );
 
     // Find the count of todos in the new status
     const count = await Todo.countDocuments({
-      user: todo.user,
+      boardId: todo.boardId,
       status: body.status,
     });
 

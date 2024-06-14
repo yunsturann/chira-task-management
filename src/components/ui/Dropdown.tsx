@@ -14,10 +14,11 @@ interface DropdownProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   actionIcon?: React.ReactNode;
   children: React.ReactNode;
+  iconSize?: number;
 }
 
 const Dropdown = (props: DropdownProps) => {
-  const { isOpen, setIsOpen, children, actionIcon } = props;
+  const { isOpen, setIsOpen, children, actionIcon, iconSize } = props;
 
   // ** Refs
   const dropdownRef = useRef<HTMLUListElement | null>(null);
@@ -34,7 +35,7 @@ const Dropdown = (props: DropdownProps) => {
         title="actions"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        {actionIcon || <BsThreeDots />}
+        {actionIcon || <BsThreeDots size={iconSize} />}
       </div>
 
       {/* Actions Items */}

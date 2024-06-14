@@ -6,20 +6,22 @@ import { redirect } from "next/navigation";
 
 // ** Actions
 import { getUserById } from "@/lib/actions/user.actions";
-import { getTodosByUserId } from "@/lib/actions/todo.actions";
+import { getAllBoardsByUserId } from "@/lib/actions/board.actions";
 
 // ** Types
-import { ITodoResponse, IUser } from "@/types/model.types";
+import { IBoard, IUser } from "@/types/model.types";
 
 // ** Third Party Imports
 import { auth } from "@clerk/nextjs";
 
 // ** Custom Components
-import Board from "@/components/todo/board";
 import Container from "@/components/shared/container";
+import BoardsTable from "@/components/todo/boards-table";
 
 const TodoPage = async () => {
   const { userId } = auth();
+
+  console.log("Boards Page");
 
   const user: IUser = await getUserById(userId!);
 
@@ -27,15 +29,27 @@ const TodoPage = async () => {
     redirect("/");
   }
 
-  const todos: ITodoResponse = await getTodosByUserId(user._id);
+  const boards = (await getAllBoardsByUserId(user._id)) as IBoard[];
 
-  if (todos.length === 0) {
+  if (boards.length === 0) {
     redirect("/onboarding");
   }
 
   return (
     <Container paddingVertical>
-      <Board boardTitle="Todo" tasks={todos} userId={user._id} />
+      <header className="mb-8">
+        <h1 className="text-3xl lg:text-4xl font-semibold text-left ">
+          {user.username.charAt(0).toUpperCase() +
+            user.username.slice(1) +
+            "'s "}
+          Boards
+        </h1>
+        <p className="text-gray-500 dark:text-gray-400">
+          Here are your boards. Click on a board to view its tasks
+        </p>
+      </header>
+
+      <BoardsTable boards={boards} userId={user._id} />
     </Container>
   );
 };

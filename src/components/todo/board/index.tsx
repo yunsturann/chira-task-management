@@ -1,6 +1,6 @@
 "use client";
 // ** React Imports
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // ** Third Party Imports
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 // ** Types
 import {
-  ITodo,
+  IBoard,
   ITodoResponse,
   ITodoStatusIndexRequest,
   TodoStatus,
@@ -25,13 +25,12 @@ import TodoFormModal from "../todo-form-modal";
 import { TodoContext } from "@/context/all-todos-context";
 
 interface BoardProps {
-  boardTitle: string;
+  board: IBoard;
   tasks: ITodoResponse;
-  userId: string;
 }
 
 const Board = (props: BoardProps) => {
-  const { boardTitle, tasks, userId } = props;
+  const { board, tasks } = props;
 
   // ** States
   const [todos, setTodos] = useState<ITodoResponse>(tasks);
@@ -132,10 +131,10 @@ const Board = (props: BoardProps) => {
   };
 
   return (
-    <TodoContext.Provider value={{ todos, setTodos, userId }}>
+    <TodoContext.Provider value={{ todos, setTodos, boardId: board._id }}>
       <section>
         <h1 className="text-3xl font-bold tracking-tighter text-center mb-10">
-          {boardTitle}
+          {board.name}
         </h1>
         <DragDropContext onDragEnd={onDragEnd}>
           {/* Add new todo Button */}

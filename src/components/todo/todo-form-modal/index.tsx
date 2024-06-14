@@ -61,7 +61,7 @@ const TodoFormModal = (props: TodoModalProps) => {
   const [tags, setTags] = useState<ITag[]>(task?.tags || []);
 
   // ** Context
-  const { setTodos, todos, userId } = useContext<ITodoContext>(TodoContext);
+  const { setTodos, todos, boardId } = useContext<ITodoContext>(TodoContext);
 
   const IS_ADD_MODE = task === undefined;
 
@@ -94,7 +94,7 @@ const TodoFormModal = (props: TodoModalProps) => {
     const newTodo = {
       ...formData,
       tags,
-      user: userId,
+      boardId,
     };
 
     try {

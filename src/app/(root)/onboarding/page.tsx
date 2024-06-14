@@ -12,7 +12,7 @@ import { auth } from "@clerk/nextjs";
 
 // ** Custom Components
 import Container from "@/components/shared/container";
-import FirstTodoForm from "@/components/onboarding/first-todo-form";
+import FirstBoardForm from "@/components/onboarding/first-board-form";
 
 const OnboardingPage = async () => {
   const { userId } = auth();
@@ -28,9 +28,9 @@ const OnboardingPage = async () => {
       <Container className="max-w-[700px] relative top-[30%]">
         <h1 className="text-4xl lg:text-5xl font-semibold text-center mb-8">
           Hello {user.username} 👋
-          <br /> Create your first todo!
+          <br /> Create your first board!
         </h1>
-        <FirstTodoForm userId={user._id} />
+        <FirstBoardForm userId={user._id} />
       </Container>
     </div>
   );
