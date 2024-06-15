@@ -16,7 +16,7 @@ const SelectBox = forwardRef<HTMLSelectElement, SelectBoxProps>(
     const { className, error, label, options, necessary, ...rest } = props;
 
     return (
-      <div>
+      <div className="flex-1 w-full">
         {label && (
           <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">
             {label} {necessary && <span className="text-red-500">*</span>}

@@ -1,26 +1,15 @@
 "use client";
 // ** React Imports
-import { useState } from "react";
-
-// ** Nextjs Imports
-import Link from "next/link";
+import { useEffect, useState } from "react";
 
 // ** Custom Components
 import Button from "@/components/ui/Button";
-import Dropdown, { DropdownItem } from "@/components/ui/Dropdown";
 import Input from "@/components/ui/Input";
-import AddBoardModal from "./AddBoardModal";
-
-// ** Utils
-import { formatTimestamp } from "@/lib/utils";
+import BoardFormModal from "./BoardFormModal";
+import BoardItem from "./BoardItem";
 
 // ** Types
 import { IBoard } from "@/types/model.types";
-
-// ** Icons
-
-import { FaEdit, FaLocationArrow, FaTrash } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 
 interface BoardsTableProps {
   boards: IBoard[];
@@ -30,72 +19,44 @@ interface BoardsTableProps {
 const BoardsTable = (props: BoardsTableProps) => {
   const { boards, userId } = props;
 
-  const router = useRouter();
-
   const [showAddBoardModal, setShowAddBoardModal] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // ** Filter boards based on search query
+  const filteredBoards = boards.filter((board) =>
+    board.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 shadow-sm rounded-md">
       {/* header */}
       <div className="flex justify-between p-6">
         <Button
-          color="blue"
+          color="dark"
           className="basis-1/3"
           onClick={() => setShowAddBoardModal(true)}
         >
           Create new board
         </Button>
         <div className="basis-1/3">
-          <Input placeholder="Search boards..." />
+          <Input
+            placeholder="Search boards..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
       </div>
 
       {/* Board List */}
       <ul className="flex flex-col gap-y-3 p-6 h-[500px] overflow-y-auto">
-        {boards.map((board) => (
-          // <Link key={board._id} href={`/todo/${board.name}`}>
-          <li
-            key={board._id}
-            className="flex_between gap-x-4 p-3 rounded-lg border border-gray-300 dark:border-gray-900 bg-white dark:bg-gray-800 transition duration-300 cursor-pointer"
-            onClick={() => {
-              router.push(`/todo/${board.name}`);
-              router.refresh();
-            }}
-          >
-            <h3 className="text-xl font-semibold tracking-tight">
-              {board.name}
-            </h3>
-            <div className="flex items-center gap-x-4">
-              <p className="text-xs font-light">
-                <span className="italic">Created: </span>
-                {formatTimestamp(board.createdAt)}
-              </p>
-
-              <Dropdown
-                isOpen={showDropdown}
-                setIsOpen={setShowDropdown}
-                iconSize={26}
-              >
-                <DropdownItem className="flex_between">
-                  Edit <FaEdit />
-                </DropdownItem>
-                <DropdownItem className="flex_between">
-                  Delete <FaTrash />
-                </DropdownItem>
-                <DropdownItem className="flex_between">
-                  Go to <FaLocationArrow />
-                </DropdownItem>
-              </Dropdown>
-            </div>
-          </li>
-          // </Link>
+        {filteredBoards.map((board) => (
+          <BoardItem key={board._id} board={board} />
         ))}
       </ul>
 
       {/* Add Board Modal */}
       {showAddBoardModal && (
-        <AddBoardModal
+        <BoardFormModal
           onClose={() => setShowAddBoardModal(false)}
           title="Add new board"
           userId={userId}

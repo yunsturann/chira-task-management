@@ -28,7 +28,7 @@ const Dropdown = (props: DropdownProps) => {
   });
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block" onClick={(e) => e.stopPropagation()}>
       {/* Actions Icon */}
       <div
         className="cursor-pointer text-xl text-blue-400 hover:text-blue-600 transition duration-300 px-1 py-0.5 hover:bg-gray-50 dark:hover:bg-gray-200 rounded-lg"

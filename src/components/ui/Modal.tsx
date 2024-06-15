@@ -26,7 +26,7 @@ const Modal = (props: ModalProps) => {
     >
       <div
         className={cn(
-          "z-20 flex flex-col bg-white dark:bg-gray-700 min-w-[320px] w-[94%] lg:w-1/2 min-h-[320px] rounded-xl p-4 sm:p-6",
+          "z-20 flex flex-col bg-white dark:bg-gray-700 min-w-[320px] w-[94%] lg:w-1/2 rounded-xl p-4 sm:p-6",
           innerClass
         )}
         onClick={(e) => e.stopPropagation()}

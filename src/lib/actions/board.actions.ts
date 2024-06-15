@@ -4,14 +4,10 @@ import { IBoard, IUser } from "@/types/model.types";
 import { connectToDatabase } from "../database";
 import Board from "../models/board-model";
 import User from "../models/user-model";
+import { revalidatePath } from "next/cache";
 
 // CREATE FIRST BOARD
-export async function createBoardWithFormData(
-  prevState: TFormActionState,
-  formData: FormData
-) {
-  const { userId, name } = Object.fromEntries(formData.entries());
-
+export async function createBoardWithModal(userId: string, name: string) {
   try {
     await connectToDatabase();
 
@@ -20,12 +16,43 @@ export async function createBoardWithFormData(
       userId,
     });
 
+    revalidatePath("/todo");
+
     return { message: "Board created successfully", error: false };
   } catch (error: any) {
     return { message: error.message as string, error: true };
   }
 }
 
+// DELETE A BOARD
+export async function deleteBoardById(boardId: string) {
+  try {
+    await connectToDatabase();
+
+    await Board.findByIdAndDelete(boardId);
+
+    revalidatePath("/todo");
+    return { message: "Board deleted successfully", error: false };
+  } catch (error) {
+    return { message: (error as Error).message, error: true };
+  }
+}
+
+// UPDATE A BOARD
+export async function updateBoardById(boardId: string, name: string) {
+  try {
+    await connectToDatabase();
+
+    await Board.findByIdAndUpdate(boardId, { name });
+
+    revalidatePath("/todo");
+    return { message: "Board updated successfully", error: false };
+  } catch (error) {
+    return { message: (error as Error).message, error: true };
+  }
+}
+
+// GET ALL BOARDS BY USER ID FOR TODO PAGE
 export async function getAllBoardsByUserId(userId: string) {
   try {
     await connectToDatabase();
@@ -38,6 +65,7 @@ export async function getAllBoardsByUserId(userId: string) {
   }
 }
 
+// GET A BOARD BY USER ID AND BOARD NAME FOR [BOARD] PAGE
 export async function getUserAndBoard(userId: string, boardName: string) {
   try {
     await connectToDatabase();

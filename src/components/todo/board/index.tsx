@@ -19,7 +19,7 @@ import { FaPlus } from "react-icons/fa";
 
 // ** Custom Components
 import Column from "./Column";
-import TodoFormModal from "../todo-form-modal";
+import TodoFormModal from "./TodoFormModal";
 
 // ** Context
 import { TodoContext } from "@/context/all-todos-context";

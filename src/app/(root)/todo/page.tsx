@@ -21,8 +21,6 @@ import BoardsTable from "@/components/todo/boards-table";
 const TodoPage = async () => {
   const { userId } = auth();
 
-  console.log("Boards Page");
-
   const user: IUser = await getUserById(userId!);
 
   if (!user) {

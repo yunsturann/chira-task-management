@@ -27,8 +27,6 @@ const BoardPage = async ({ params }: BoardPageProps) => {
   let { board } = params;
   board = decodeURIComponent(board);
 
-  console.log(new Date());
-
   const { userId } = auth();
 
   if (!userId) {

@@ -19,7 +19,7 @@ import { formatTimestamp } from "@/lib/utils";
 import { ITodoContext, TodoContext } from "@/context/all-todos-context";
 
 // ** Custom Components
-import TodoFormModal, { TodoFormType } from "../todo-form-modal";
+import TodoFormModal, { TodoFormType } from "./TodoFormModal";
 import AlertDialog from "@/components/ui/AlertDialog";
 import Dropdown, { DropdownItem } from "@/components/ui/Dropdown";
 import Chip from "@/components/ui/Chip";

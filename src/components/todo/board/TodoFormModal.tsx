@@ -187,23 +187,25 @@ const TodoFormModal = (props: TodoModalProps) => {
           error={errors.title?.message}
           onInput={onInputRemoveSpecialChars}
         />
-        {/* Priority */}
-        <SelectBox
-          {...register("priority")}
-          label="Priority"
-          options={todoPriorityArray}
-          necessary
-          error={errors.priority?.message}
-        />
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-x-4 gap-y-3 ">
+          {/* Priority */}
+          <SelectBox
+            {...register("priority")}
+            label="Priority"
+            options={todoPriorityArray}
+            necessary
+            error={errors.priority?.message}
+          />
 
-        {/* Status */}
-        <SelectBox
-          {...register("status")}
-          label="Status"
-          options={todoStatusArray}
-          necessary
-          error={errors.status?.message}
-        />
+          {/* Status */}
+          <SelectBox
+            {...register("status")}
+            label="Status"
+            options={todoStatusArray}
+            necessary
+            error={errors.status?.message}
+          />
+        </div>
 
         {/* Description */}
         <TextArea
