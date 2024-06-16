@@ -36,12 +36,14 @@ const TodoItem = (props: TodoItemProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showUpdateTodoModal, setShowUpdateTodoModal] = useState(false);
   const [showDeleteAlertDialog, setShowDeleteAlertDialog] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // ** Context
   const { setTodos: setAllTodos, todos: allTodos } =
     useContext<ITodoContext>(TodoContext);
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
       const response = await fetch(`/api/todo/${task._id}`, {
         method: "DELETE",
@@ -63,6 +65,9 @@ const TodoItem = (props: TodoItemProps) => {
       }));
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteAlertDialog(false);
     }
   };
 
@@ -216,6 +221,7 @@ const TodoItem = (props: TodoItemProps) => {
           message="This action cannot be undone. This will permanently delete your todo from our servers."
           handleCancel={() => setShowDeleteAlertDialog(false)}
           handleContinue={handleDelete}
+          isLoading={isDeleting}
         />
       )}
     </>

@@ -1,10 +1,15 @@
 "use server";
 
+// ** Next Imports
+import { revalidatePath } from "next/cache";
+
+// ** Types
 import { IBoard, IUser } from "@/types/model.types";
+
+// ** Models & Database
 import { connectToDatabase } from "../database";
 import Board from "../models/board-model";
 import User from "../models/user-model";
-import { revalidatePath } from "next/cache";
 
 // CREATE FIRST BOARD
 export async function createBoardWithModal(userId: string, name: string) {

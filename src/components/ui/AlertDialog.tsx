@@ -7,6 +7,7 @@ interface AlertDialogProps {
   handleContinue: () => void;
   btnCancelText?: string;
   btnContinueText?: string;
+  isLoading?: boolean;
 }
 
 const AlertDialog = (props: AlertDialogProps) => {
@@ -17,7 +18,9 @@ const AlertDialog = (props: AlertDialogProps) => {
     handleContinue,
     btnCancelText = "Cancel",
     btnContinueText = "Continue",
+    isLoading = false,
   } = props;
+
   return (
     <div className="fixed inset-0 z-40 h-screen w-full bg-black/60 flex items-center justify-center">
       {/* Inner */}
@@ -40,6 +43,7 @@ const AlertDialog = (props: AlertDialogProps) => {
           <button
             className="max-md:w-full py-2 px-4 text-sm tracking-tight border rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-1 focus:ring-opacity-50 bg-gray-800 border-gray-950 text-white hover:bg-gray-700 focus:ring-gray-600 dark:bg-gray-100 dark:border-gray-300 dark:text-black dark:hover:bg-gray-300 dark:focus:ring-gray-500"
             onClick={handleContinue}
+            disabled={isLoading}
           >
             {btnContinueText}
           </button>

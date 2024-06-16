@@ -1,5 +1,6 @@
 // ** Nextjs Imports
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 
 // ** Types
 import { IUser } from "@/types/model.types";
@@ -13,6 +14,10 @@ import { auth } from "@clerk/nextjs";
 // ** Custom Components
 import Container from "@/components/shared/container";
 import FirstBoardForm from "@/components/onboarding/first-board-form";
+
+export const metadata: Metadata = {
+  title: "Onboarding",
+};
 
 const OnboardingPage = async () => {
   const { userId } = auth();

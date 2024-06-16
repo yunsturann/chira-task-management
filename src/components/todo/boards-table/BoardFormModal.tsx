@@ -1,6 +1,6 @@
 "use client";
 // ** React Imports
-import React from "react";
+import React, { useState } from "react";
 
 // ** Custom Components
 import Button from "@/components/ui/Button";
@@ -30,6 +30,8 @@ const BoardFormModal = (props: AddBoardModalProps) => {
 
   const IS_EDIT_MODE = initialData !== undefined;
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === "Escape") {
       rest.onClose();
@@ -45,7 +47,11 @@ const BoardFormModal = (props: AddBoardModalProps) => {
       return toast.error("Board name must be at least 3 characters long");
     }
 
+    setIsSubmitting(true);
+
     const response = await createBoardWithModal(userId, name);
+
+    setIsSubmitting(false);
 
     if (response.error) {
       return toast.error(response.message);
@@ -64,7 +70,11 @@ const BoardFormModal = (props: AddBoardModalProps) => {
       return toast.error("Board name must be at least 3 characters long");
     }
 
+    setIsSubmitting(true);
+
     const response = await updateBoardById(initialData!.boardId, name);
+
+    setIsSubmitting(false);
 
     if (response.error) {
       return toast.error(response.message);
@@ -87,6 +97,7 @@ const BoardFormModal = (props: AddBoardModalProps) => {
           label={"Board Name"}
           placeholder="Enter board name..."
           defaultValue={initialData?.name}
+          maxLength={20}
           necessary
           required
           onInput={onInputRemoveSpecialChars}
@@ -97,7 +108,7 @@ const BoardFormModal = (props: AddBoardModalProps) => {
           <Button type="button" onClick={rest.onClose}>
             Close
           </Button>
-          <Button color="blue" type="submit">
+          <Button color="blue" type="submit" disabled={isSubmitting}>
             Create
           </Button>
         </div>

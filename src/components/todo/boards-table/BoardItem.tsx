@@ -32,6 +32,7 @@ const BoardItem = (props: BoardItemProps) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeleteAlertDialog, setShowDeleteAlertDialog] = useState(false);
   const [showUpdateBoardModal, setShowUpdateBoardModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleNavigateToBoard = () => {
     router.push(`/todo/${board.name}`);
@@ -39,11 +40,17 @@ const BoardItem = (props: BoardItemProps) => {
   };
 
   const handleDeleteBoard = async () => {
+    setIsDeleting(true);
+
     const response = await deleteBoardById(board._id);
+
+    setIsDeleting(false);
 
     if (response.error) return toast.error(response.message);
 
     toast.success(response.message);
+
+    setShowDeleteAlertDialog(false);
   };
 
   return (
@@ -99,6 +106,7 @@ const BoardItem = (props: BoardItemProps) => {
           message="Are you sure you want to delete this board? This action cannot be undone."
           handleCancel={() => setShowDeleteAlertDialog(false)}
           handleContinue={handleDeleteBoard}
+          isLoading={isDeleting}
         />
       )}
       {showUpdateBoardModal && (

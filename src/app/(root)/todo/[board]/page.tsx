@@ -49,3 +49,10 @@ const BoardPage = async ({ params }: BoardPageProps) => {
 };
 
 export default BoardPage;
+
+export const generateMetadata = async ({ params }: BoardPageProps) => {
+  const { board } = params;
+  return {
+    title: board,
+  };
+};

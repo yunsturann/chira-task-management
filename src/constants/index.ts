@@ -11,26 +11,26 @@ export const navLinks = [
     href: "/",
     icon: FaHome,
   },
-  {
-    title: "Projects",
-    href: "/projects",
-    icon: GrProjects,
-  },
-  {
-    title: "Teams",
-    href: "/teams",
-    icon: FaUserGroup,
-  },
+  // {
+  //   title: "Projects",
+  //   href: "/projects",
+  //   icon: GrProjects,
+  // },
+  // {
+  //   title: "Teams",
+  //   href: "/teams",
+  //   icon: FaUserGroup,
+  // },
   {
     title: "Todo",
     href: "/todo",
     icon: LuListTodo,
   },
-  {
-    title: "Profile",
-    href: "/profile",
-    icon: FaUserAlt,
-  },
+  // {
+  //   title: "Profile",
+  //   href: "/profile",
+  //   icon: FaUserAlt,
+  // },
 ];
 
 export const todoStatusArray = [

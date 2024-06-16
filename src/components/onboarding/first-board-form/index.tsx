@@ -1,9 +1,6 @@
 "use client";
 
-// ** React Imports
-import { useEffect } from "react";
-import { useFormState } from "react-dom";
-
+import { useState } from "react";
 // ** Next Imports
 import { useRouter } from "next/navigation";
 
@@ -12,53 +9,61 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 
 // ** Actions
-import { createBoardWithFormData } from "@/lib/actions/board.actions";
+import { createBoardWithModal } from "@/lib/actions/board.actions";
 
 // ** Third Party Imports
 import toast from "react-hot-toast";
+
+// ** Utils
 import { onInputRemoveSpecialChars } from "@/lib/utils";
 
 interface FirstBoardFormProps {
   userId: string;
 }
 
-const initialState: TFormActionState = {
-  message: "",
-  error: false,
-};
-
 const FirstBoardForm = (props: FirstBoardFormProps) => {
   const { userId } = props;
 
   const router = useRouter();
 
-  const [state, formAction] = useFormState(
-    createBoardWithFormData,
-    initialState
-  );
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (state.error) {
-      toast.error(state.message);
-    } else if (state.message) {
-      toast.success(state.message);
-      router.replace("/todo");
+  const handleCreateFirstBoard = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+
+    setIsLoading(true);
+
+    const name = new FormData(e.currentTarget).get("name") as string;
+
+    const response = await createBoardWithModal(userId, name);
+
+    if (response.error) {
+      setIsLoading(false);
+      return toast.error(response.message);
     }
-  }, [state, router]);
+
+    toast.success("First board created successfully");
+    router.push("/todo/" + name);
+    setIsLoading(false);
+  };
 
   return (
-    <form action={formAction}>
-      <Input type="hidden" value={userId} name="userId" />
+    <form onSubmit={handleCreateFirstBoard}>
       <Input
         name="name"
         placeholder="Create your first board..."
         required
+        minLength={3}
         maxLength={20}
         className="text-2xl mb-8"
         isUnderlined
         onInput={onInputRemoveSpecialChars}
       />
-      <Button>Continue</Button>
+      <Button type="submit" disabled={isLoading}>
+        Continue
+      </Button>
     </form>
   );
 };

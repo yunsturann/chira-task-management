@@ -1,8 +1,9 @@
 // ** React
 import React from "react";
 
-// ** Nextj Imports
+// ** Nextjs Imports
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 
 // ** Actions
 import { getUserById } from "@/lib/actions/user.actions";
@@ -17,6 +18,10 @@ import { auth } from "@clerk/nextjs";
 // ** Custom Components
 import Container from "@/components/shared/container";
 import BoardsTable from "@/components/todo/boards-table";
+
+export const metadata: Metadata = {
+  title: "Boards",
+};
 
 const TodoPage = async () => {
   const { userId } = auth();
