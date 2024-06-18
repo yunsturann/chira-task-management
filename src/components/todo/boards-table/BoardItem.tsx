@@ -16,9 +16,13 @@ import { formatTimestamp } from "@/lib/utils";
 // ** Custom Components
 import Dropdown, { DropdownItem } from "@/components/ui/Dropdown";
 import AlertDialog from "@/components/ui/AlertDialog";
-import { deleteBoardById } from "@/lib/actions/board.actions";
-import toast from "react-hot-toast";
 import BoardFormModal from "./BoardFormModal";
+
+// ** Actions
+import { deleteBoardById } from "@/lib/actions/board.actions";
+
+// Third Party Imports
+import toast from "react-hot-toast";
 
 interface BoardItemProps {
   board: IBoard;

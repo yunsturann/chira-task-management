@@ -28,9 +28,9 @@ const BoardsTable = (props: BoardsTableProps) => {
   );
 
   return (
-    <div className="border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 shadow-sm rounded-md">
+    <div className="border border-gray-400 dark:border-gray-500 bg-white dark:bg-gray-700 shadow-sm rounded-md">
       {/* header */}
-      <div className="flex justify-between p-6">
+      <div className="bg-slate-200 dark:bg-slate-500 flex flex-col md:flex-row justify-between gap-3 p-6 rounded-t-md">
         <Button
           color="dark"
           className="basis-1/3"
@@ -48,7 +48,7 @@ const BoardsTable = (props: BoardsTableProps) => {
       </div>
 
       {/* Board List */}
-      <ul className="flex flex-col gap-y-3 p-6 h-[500px] overflow-y-auto">
+      <ul className="flex flex-col gap-y-3 p-6 h-[340px] sm:h-[500px] overflow-y-auto rounded-b-md">
         {filteredBoards.map((board) => (
           <BoardItem key={board._id} board={board} />
         ))}

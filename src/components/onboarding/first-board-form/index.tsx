@@ -37,6 +37,9 @@ const FirstBoardForm = (props: FirstBoardFormProps) => {
 
     const name = new FormData(e.currentTarget).get("name") as string;
 
+    if (name.length < 3)
+      return toast.error("Board name must be at least 3 characters long");
+
     const response = await createBoardWithModal(userId, name);
 
     if (response.error) {
