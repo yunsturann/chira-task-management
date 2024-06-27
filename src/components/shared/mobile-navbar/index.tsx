@@ -28,7 +28,6 @@ const MobileNav = () => {
   return (
     <header className="flex lg:hidden justify-between items-center p-5 shadow-md shadow-purple-200/50">
       {/* Logo */}
-
       <Logo size="medium" />
 
       {/* Profile And Menu Icon */}

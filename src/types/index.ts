@@ -14,3 +14,10 @@ declare type ITodoByModal = {
     color: string;
   }[];
 };
+
+declare type ContactForm = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};

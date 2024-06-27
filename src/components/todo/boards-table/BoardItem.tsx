@@ -59,12 +59,14 @@ const BoardItem = (props: BoardItemProps) => {
 
   return (
     <>
-      <li
-        className="flex_between gap-x-4 p-3 rounded-lg border border-gray-300 dark:border-gray-900 bg-white hover:bg-slate-200 dark:bg-gray-800 dark:hover:bg-gray-950 transition duration-300 cursor-pointer"
-        onClick={handleNavigateToBoard}
-      >
-        <h3 className="text-xl font-semibold tracking-tight">{board.name}</h3>
-        <div className="flex items-center gap-x-4">
+      <li className="flex flex-col sm:flex-row justify-between gap-x-4 rounded-lg border border-gray-300 dark:border-gray-900 bg-white dark:bg-gray-800">
+        <h3
+          className="flex-1 text-xl font-semibold tracking-tight p-3  hover:bg-slate-200  dark:hover:bg-gray-950 transition duration-300 cursor-pointer rounded-l-lg"
+          onClick={handleNavigateToBoard}
+        >
+          {board.name}
+        </h3>
+        <div className="flex justify-between items-center gap-x-4">
           <p className="text-xs font-light">
             <span className="italic">Created: </span>
             {formatTimestamp(board.createdAt)}
@@ -74,6 +76,7 @@ const BoardItem = (props: BoardItemProps) => {
             isOpen={showDropdown}
             setIsOpen={setShowDropdown}
             iconSize={26}
+            iconClassName="p-3 rounded-r-lg"
           >
             <DropdownItem
               className="flex_between"

@@ -25,7 +25,13 @@ export async function createBoardWithModal(userId: string, name: string) {
 
     return { message: "Board created successfully", error: false };
   } catch (error: any) {
-    return { message: error.message as string, error: true };
+    let message: string = error.message;
+
+    if (error.code === 11000) {
+      message = "Board already exists";
+    }
+
+    return { message, error: true };
   }
 }
 
@@ -52,8 +58,14 @@ export async function updateBoardById(boardId: string, name: string) {
 
     revalidatePath("/todo");
     return { message: "Board updated successfully", error: false };
-  } catch (error) {
-    return { message: (error as Error).message, error: true };
+  } catch (error: any) {
+    let message: string = error.message;
+
+    if (error.code === 11000) {
+      message = "Board already exists";
+    }
+
+    return { message, error: true };
   }
 }
 
@@ -62,7 +74,8 @@ export async function getAllBoardsByUserId(userId: string) {
   try {
     await connectToDatabase();
 
-    const boards: IBoard[] = (await Board.find({ userId })) || [];
+    const boards: IBoard[] =
+      (await Board.find({ userId }).sort({ createdAt: -1 })) || [];
 
     return JSON.parse(JSON.stringify(boards));
   } catch (error) {

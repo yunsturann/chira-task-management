@@ -40,8 +40,8 @@ const TodoPage = async () => {
 
   return (
     <Container paddingVertical>
-      <header className="mb-8">
-        <h1 className="text-3xl lg:text-4xl font-semibold text-left ">
+      <header className="mb-8 text-center sm:text-left">
+        <h1 className="text-3xl lg:text-4xl font-semibold">
           {user.username.charAt(0).toUpperCase() +
             user.username.slice(1) +
             "'s "}

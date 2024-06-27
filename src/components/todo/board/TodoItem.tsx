@@ -1,9 +1,10 @@
 "use client";
 import React, { useContext, useState } from "react";
-import dynamic from "next/dynamic";
+
 // ** Icons
 import { FaChevronRight, FaRocket, FaTrash } from "react-icons/fa";
 import { GrUpdate } from "react-icons/gr";
+import { FiMinimize2 } from "react-icons/fi";
 
 // ** Types
 import { ITodo, TodoStatus } from "@/types/model.types";
@@ -37,6 +38,7 @@ const TodoItem = (props: TodoItemProps) => {
   const [showUpdateTodoModal, setShowUpdateTodoModal] = useState(false);
   const [showDeleteAlertDialog, setShowDeleteAlertDialog] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   // ** Context
   const { setTodos: setAllTodos, todos: allTodos } =
@@ -147,6 +149,7 @@ const TodoItem = (props: TodoItemProps) => {
                 actionIcon={<FaRocket />}
                 isOpen={isDropdownOpen}
                 setIsOpen={setIsDropdownOpen}
+                iconClassName=" rounded-lg p-1.5"
               >
                 <DropdownItem
                   onClick={() => {
@@ -164,6 +167,12 @@ const TodoItem = (props: TodoItemProps) => {
                   Update <GrUpdate />
                 </DropdownItem>
                 <DropdownItem
+                  onClick={() => setIsMinimized((prev) => !prev)}
+                  className="flex items-center justify-between"
+                >
+                  {isMinimized ? "Maximize" : "Minimize"} <FiMinimize2 />
+                </DropdownItem>
+                <DropdownItem
                   onClick={handleCompleteTodo}
                   className="flex items-center justify-between"
                 >
@@ -175,34 +184,37 @@ const TodoItem = (props: TodoItemProps) => {
             {/* Card Body */}
             <div>
               <h3 className="font-medium">{task.title}</h3>
-              {/* Description */}
-              {task.description && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">
-                  {task.description}
-                </p>
-              )}
-              {/* Tags */}
-              {task.tags && task.tags.length > 0 && (
-                <div className="flex flex-wrap gap-x-2 gap-y-1 mt-2">
-                  {task.tags.map(({ color, tag }, index) => (
-                    <Chip
-                      key={index}
-                      className="rounded-lg"
-                      style={{ background: color }}
-                    >
-                      {tag}
-                    </Chip>
-                  ))}
-                </div>
-              )}
+              {isMinimized ? (
+                <p>...</p>
+              ) : (
+                <>
+                  {task.description && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">
+                      {task.description}
+                    </p>
+                  )}
+                  {/* Tags */}
+                  {task.tags && task.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-x-2 gap-y-1 mt-2">
+                      {task.tags.map(({ color, tag }, index) => (
+                        <Chip
+                          key={index}
+                          className="rounded-lg"
+                          style={{ background: color }}
+                        >
+                          {tag}
+                        </Chip>
+                      ))}
+                    </div>
+                  )}
 
-              {/* Date */}
-              <p className="text-gray-400 text-xs mt-2">
-                {formatTimestamp(task.createdAt, true)}
-              </p>
+                  {/* Date */}
+                  <p className="text-gray-400 text-xs mt-2">
+                    {formatTimestamp(task.createdAt, true)}
+                  </p>
+                </>
+              )}
             </div>
-
-            {/* Card Footer*/}
           </div>
         )}
       </Draggable>

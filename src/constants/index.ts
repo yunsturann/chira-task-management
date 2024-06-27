@@ -4,6 +4,7 @@ import { GrProjects } from "react-icons/gr";
 import { FaUserGroup } from "react-icons/fa6";
 import { LuListTodo } from "react-icons/lu";
 import { FaUserAlt } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 export const navLinks = [
   {
@@ -22,9 +23,14 @@ export const navLinks = [
   //   icon: FaUserGroup,
   // },
   {
-    title: "Todo",
+    title: "Boards",
     href: "/todo",
     icon: LuListTodo,
+  },
+  {
+    title: "Feedback",
+    href: "/contact",
+    icon: MdEmail,
   },
   // {
   //   title: "Profile",

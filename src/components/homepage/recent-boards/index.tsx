@@ -19,10 +19,12 @@ import Image from "next/image";
 const RecentBoards = async () => {
   const { userId } = auth();
 
-  if (userId === null)
+  // ** If user is not logged in
+  if (!userId)
     return (
       <div className="flex items-center justify-center dark:bg">
         <Image
+          priority={true}
           src={"/images/dark_board.png"}
           alt="dark board"
           width={900}
@@ -35,8 +37,19 @@ const RecentBoards = async () => {
 
   const user: IUser = await getUserById(userId!);
 
+  // ** If user not found. There is an error with mongoDB
+  if (!user) {
+    return (
+      <p className="text-red-400">
+        User not found. Something went wrong with our servers. Please try again
+        later.
+      </p>
+    );
+  }
+
   const boards = (await getAllBoardsByUserId(user._id)) as IBoard[];
 
+  // ** If user has no boards
   if (boards.length === 0) {
     return (
       <div className="w-full flex flex-col items-center gap-y-4 text-center">
@@ -53,6 +66,7 @@ const RecentBoards = async () => {
     );
   }
 
+  // ** If user has boards
   return (
     <section>
       <h2 className="text-2xl font-medium mb-4">Recent Boards</h2>
