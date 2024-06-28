@@ -30,7 +30,12 @@ const RecentBoards = async () => {
             you have a feedback or a feature request, please let us know.
           </p>
           <Link href="/sign-in">
-            <Button color="dark">Sign in to get started</Button>
+            <Button
+              color="dark"
+              className="dark:bg-gray-950 dark:hover:bg-black dark:hover:text-blue-400 "
+            >
+              Sign in to get started
+            </Button>
           </Link>
         </header>
         <Image

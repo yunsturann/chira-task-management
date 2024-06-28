@@ -99,18 +99,20 @@ const ContactForm = () => {
       onSubmit={handleSubmit(onSubmitMail)}
       className="flex flex-col gap-y-4"
     >
-      <Input
-        {...register("name")}
-        label="Name"
-        placeholder="e.g. Yunus"
-        error={errors.name?.message}
-      />
-      <Input
-        {...register("email")}
-        label="Email"
-        placeholder="e.g. ynstrn@gmail.com"
-        error={errors.email?.message}
-      />
+      <div className="flex flex-col sm:flex-row justify-between gap-x-4">
+        <Input
+          {...register("name")}
+          label="Name"
+          placeholder="e.g. Yunus"
+          error={errors.name?.message}
+        />
+        <Input
+          {...register("email")}
+          label="Email"
+          placeholder="e.g. ynstrn@gmail.com"
+          error={errors.email?.message}
+        />
+      </div>
       <Input
         {...register("subject")}
         label="Subject"
