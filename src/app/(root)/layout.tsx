@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 // ** Custom Components
 import Sidebar from "@/components/shared/sidebar";
 import MobileNav from "@/components/shared/mobile-navbar";
+import Footer from "@/components/shared/footer";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
@@ -20,7 +21,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
       {/* MobileNav */}
       <MobileNav />
 
-      <div className="flex-1 lg:max-h-screen overflow-auto">{children} </div>
+      <div className="flex-1 flex flex-col justify-between lg:max-h-screen overflow-auto">
+        {children}
+        <Footer />
+      </div>
     </main>
   );
 };

@@ -20,3 +20,7 @@
   font-weight: 600;
   color: #384262 !important;
 }
+
+.dark .cl-userButtonOuterIdentifier {
+  color: #fff !important;
+}

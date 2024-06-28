@@ -46,12 +46,20 @@ const MobileNav = () => {
       </SignedIn>
       <SignedOut>
         <ThemeSwitcher hasText={false} />
-        <Link
-          href="/sign-in"
-          className="text-lg text-center text-white font-semibold px-4 py-1.5 rounded-lg bg-blue-500 dark:bg-blue-900 hover:opacity-70 transition duration-300"
-        >
-          Login
-        </Link>
+        <div className="flex items-center gap-x-2 sm:gap-x-6">
+          <Link
+            href="/contact"
+            className="sm:text-lg tracking-tight text-center text-white font-semibold px-4 py-1.5 rounded-lg bg-gray-700 dark:bg-gray-700 hover:opacity-80 transition duration-300"
+          >
+            Feedback
+          </Link>
+          <Link
+            href="/sign-in"
+            className="sm:text-lg tracking-tight text-center text-white font-semibold px-4 py-1.5 rounded-lg bg-blue-500 dark:bg-blue-900 hover:opacity-70 transition duration-300"
+          >
+            Login
+          </Link>
+        </div>
       </SignedOut>
     </header>
   );

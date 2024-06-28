@@ -27,7 +27,12 @@ const Logo = ({ size }: LogoProps) => {
   const textSize = sizes.text[size || "large"];
 
   return (
-    <Link href={"/"} className="flex items-center gap-3" draggable>
+    <Link
+      href={"/"}
+      className="flex items-center gap-3"
+      draggable
+      title="Homepage"
+    >
       <Image
         src="/images/logo.jpeg"
         alt="Company Logo"
@@ -37,7 +42,7 @@ const Logo = ({ size }: LogoProps) => {
       />
       <h2
         className={cn(
-          "font-bold tracking-wide text-transparent bg-gradient-to-r bg-clip-text from-blue-400 to-green-600",
+          "hidden sm:block font-bold tracking-wide text-transparent bg-gradient-to-r bg-clip-text from-blue-400 to-green-600",
           textSize
         )}
       >

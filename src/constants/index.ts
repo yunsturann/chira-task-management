@@ -11,6 +11,7 @@ export const navLinks = [
     title: "Home",
     href: "/",
     icon: FaHome,
+    isPublic: true,
   },
   // {
   //   title: "Projects",
@@ -31,6 +32,7 @@ export const navLinks = [
     title: "Feedback",
     href: "/contact",
     icon: MdEmail,
+    isPublic: true,
   },
   // {
   //   title: "Profile",

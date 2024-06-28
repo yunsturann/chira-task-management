@@ -2,20 +2,14 @@
 // ** React Imports
 import React from "react";
 
-// ** Constants
-import { navLinks } from "@/constants";
-
-// ** Utils
-import { cn } from "@/lib/utils";
-
-// ** React Icons
-import { FaX } from "react-icons/fa6";
-
 // ** Custom Components
 import NavItem from "../sidebar/NavItem";
 import Logo from "../logo";
 import ThemeSwitcher from "../sidebar/ThemeSwitcher";
 import Sheet from "@/components/ui/Sheet";
+
+// ** Constants
+import { navLinks } from "@/constants";
 
 interface HamburgerMenuProps {
   isOpen: boolean;

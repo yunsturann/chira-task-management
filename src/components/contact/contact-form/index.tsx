@@ -89,6 +89,11 @@ const ContactForm = () => {
     }
   };
 
+  const handleReset = () => {
+    reset();
+    setFiles([]);
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmitMail)}
@@ -132,7 +137,7 @@ const ContactForm = () => {
 
       {/* Buttons */}
       <div className="flex flex-col-reverse sm:flex-row gap-y-3 gap-x-12 mt-4">
-        <Button type="button" color="red" onClick={() => reset()}>
+        <Button type="button" color="red" onClick={handleReset}>
           Reset
         </Button>
         <Button type="submit" color="green" disabled={isSubmitting}>

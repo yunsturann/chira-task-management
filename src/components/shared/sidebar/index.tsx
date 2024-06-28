@@ -35,20 +35,36 @@ const Sidebar = () => {
           </ul>
 
           {/* Bottom Actions  */}
-          <div className="space-y-8">
+          <div className="space-y-8 dark:dark">
             <ThemeSwitcher />
             <UserButton afterSignOutUrl="/" showName />
           </div>
         </SignedIn>
+
         {/* SignOut */}
         <SignedOut>
-          <Link
-            href="/sign-in"
-            className="text-xl text-center text-white font-semibold p-3 rounded-lg bg-blue-500  dark:bg-blue-900 hover:opacity-70 transition duration-300"
-          >
-            Login
-          </Link>
-          <ThemeSwitcher />
+          <ul className="text-lg flex flex-col gap-y-2">
+            {navLinks.map((link) => {
+              if (link.isPublic)
+                return (
+                  <NavItem
+                    key={link.title}
+                    href={link.href}
+                    title={link.title}
+                    Icon={<link.icon />}
+                  />
+                );
+            })}
+          </ul>
+          <div className="flex flex-col gap-y-8">
+            <ThemeSwitcher />
+            <Link
+              href="/sign-in"
+              className="text-xl text-center text-white font-semibold p-3 rounded-lg bg-blue-500  dark:bg-blue-900 hover:opacity-70 transition duration-300"
+            >
+              Login
+            </Link>
+          </div>
         </SignedOut>
       </div>
     </aside>

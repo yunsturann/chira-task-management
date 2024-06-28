@@ -22,15 +22,25 @@ const RecentBoards = async () => {
   // ** If user is not logged in
   if (!userId)
     return (
-      <div className="flex items-center justify-center dark:bg">
+      <div className="flex flex-col 2xl:flex-row items-center justify-center 2xl:justify-between gap-8">
+        <header className="sm:w-1/2 flex flex-col gap-y-4 max-2xl:text-center">
+          <h2 className="text-5xl font-semibold">Kanban board</h2>
+          <p className="text-lg text-neutral-500 dark:text-neutral-300">
+            Chira is a simple and effective application to manage your todos. If
+            you have a feedback or a feature request, please let us know.
+          </p>
+          <Link href="/sign-in">
+            <Button color="dark">Sign in to get started</Button>
+          </Link>
+        </header>
         <Image
           priority={true}
           src={"/images/dark_board.png"}
           alt="dark board"
-          width={900}
-          height={700}
-          quality={100}
-          className="object-contain rounded-lg p-2 bg-slate-200 dark:bg-slate-500"
+          width={700}
+          height={500}
+          quality={80}
+          className="object-contain p-2 bg-slate-200 dark:bg-slate-500 shadow-lg"
         />
       </div>
     );

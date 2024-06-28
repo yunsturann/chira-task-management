@@ -58,16 +58,16 @@ const DropZone = (props: DropZoneProps) => {
           )}
           <div
             {...getRootProps()}
-            className="py-3 border border-gray-700 dark:border-gray-200 border-dashed rounded-2xl"
+            className="py-3 border bg-white dark:bg-gray-600 border-gray-700 dark:border-gray-200 border-dashed rounded-2xl"
           >
             <h4 className="px-2 text-lg text-center font-medium text-navy-700 ">
               {title}
             </h4>
             <input {...getInputProps()} />
-            <p className="text-gray-700 dark:text-gray-400 mt-2">
+            <p className="text-gray-700 dark:text-gray-300 mt-2">
               Drag and drop a file here, or click to select a file
             </p>
-            <p className="text-gray-400 dark:text-gray-500 mt-1 text-sm">
+            <p className="text-gray-400 dark:text-gray-400 mt-1 text-sm">
               {description}
             </p>
           </div>
@@ -76,9 +76,9 @@ const DropZone = (props: DropZoneProps) => {
             {files.map((file, index) => (
               <div
                 key={index}
-                className="mt-2 border border-gray-200 dark:border-gray-600  rounded-md flex items-center text-left"
+                className="mt-2 border border-gray-200 dark:border-gray-600 rounded-md flex items-center text-left"
               >
-                <div className="bg-gray-300 dark:bg-gray-700 px-4 py-4 text-xl">
+                <div className="bg-gray-300 dark:bg-gray-700 px-4 py-4 text-xl rounded-l-md">
                   <FaRegFolderOpen />
                 </div>
                 <div className="pr-2 flex-grow flex items-center justify-between">
