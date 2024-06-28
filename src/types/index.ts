@@ -20,4 +20,5 @@ declare type ContactForm = {
   email: string;
   subject: string;
   message: string;
+  files?: { fileName: string; path: string }[];
 };

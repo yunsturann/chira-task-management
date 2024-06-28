@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(request: NextRequest) {
-  const formBody: ContactForm = await request.json();
+  const { email, message, name, subject, files }: ContactForm =
+    await request.json();
 
   const SMTP_EMAIL = process.env.SMTP_EMAIL;
   const SMTP_PASS = process.env.SMTP_PASSWORD;
@@ -30,12 +31,16 @@ export async function POST(request: NextRequest) {
     await transport.sendMail({
       from: SMTP_EMAIL,
       to: SMTP_EMAIL,
-      subject: formBody.subject,
+      subject: subject,
       html: `
-            <p>Name: ${formBody.name}</p>
-            <p>Email: ${formBody.email}</p>
-            <p>Message: ${formBody.message}</p>
+            <p>Name: ${name}</p>
+            <p>Email: ${email}</p>
+            <p>Message: ${message}</p>
             `,
+      attachments: files?.map(({ fileName, path }) => ({
+        filename: fileName,
+        path,
+      })),
     });
 
     return NextResponse.json(
