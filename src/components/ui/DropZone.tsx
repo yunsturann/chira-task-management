@@ -78,21 +78,23 @@ const DropZone = (props: DropZoneProps) => {
                 key={index}
                 className="mt-2 border border-gray-200 dark:border-gray-600 rounded-md flex items-center text-left"
               >
-                <div className="bg-gray-300 dark:bg-gray-700 px-4 py-4 text-xl rounded-l-md">
+                <div className="bg-gray-300 dark:bg-gray-700 p-4 text-xl rounded-l-md">
                   <FaRegFolderOpen />
                 </div>
                 <div className="pr-2 flex-grow flex items-center justify-between">
                   {/* File Content */}
-                  <div className="ml-6 ">
-                    <p>{file.name}</p>
+                  <div className="ml-2 sm:ml-6">
+                    <p className="text-sm sm:text-base line-clamp-2">
+                      {file.name}
+                    </p>
                     <p className="text-sm text-gray-400">
                       {(file.size / 1024).toFixed(2)} KB
                     </p>
                   </div>
                   {/* ACTIONS */}
-                  <div className="space-x-3">
+                  <div>
                     <button
-                      className="px-3 py-2  text-red-500 text-xl hover:bg-gray-200 rounded-lg transition duration-300"
+                      className="px-3 py-2 text-red-500 text-xl hover:bg-gray-200 rounded-lg transition duration-300"
                       onClick={() => deleteFile(index)}
                     >
                       <FaTrash />

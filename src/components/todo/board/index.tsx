@@ -139,7 +139,7 @@ const Board = (props: BoardProps) => {
         <DragDropContext onDragEnd={onDragEnd}>
           {/* Add new todo Button */}
           <button
-            className="fixed bottom-[3%] right-[3%] lg:bottom-[5%] lg:right-[5%] size-12 bg-gray-800 dark:bg-gray-200 text-white dark:text-black text-xl rounded-full shadow-md shadow-gray-600 flex items-center justify-center hover:opacity-80 transition duration-300"
+            className="fixed z-[99] bottom-[3%] right-[3%] lg:bottom-[5%] lg:right-[5%] size-12 bg-gray-800 dark:bg-gray-200 text-white dark:text-black text-xl rounded-full shadow-md shadow-gray-600 flex items-center justify-center hover:opacity-80 transition duration-300"
             title="Add New Todo"
             onClick={() => setShowAddTodoModal(true)}
           >

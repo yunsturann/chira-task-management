@@ -59,15 +59,15 @@ const BoardItem = (props: BoardItemProps) => {
 
   return (
     <>
-      <li className="flex flex-col sm:flex-row justify-between gap-x-4 rounded-lg border border-gray-300 dark:border-gray-900 bg-white dark:bg-gray-800">
+      <li className="flex items-center justify-between gap-x-4 rounded-lg border border-gray-300 dark:border-gray-900 bg-white dark:bg-gray-800">
         <h3
-          className="flex-1 text-xl font-semibold tracking-tight p-3  hover:bg-slate-200  dark:hover:bg-gray-950 transition duration-300 cursor-pointer rounded-l-lg"
+          className="flex-1 text-lg sm:text-xl font-semibold tracking-tight p-1.5 sm:p-3 hover:bg-slate-200 dark:hover:bg-gray-950 transition duration-300 cursor-pointer rounded-l-lg"
           onClick={handleNavigateToBoard}
         >
           {board.name}
         </h3>
         <div className="flex justify-between items-center gap-x-4">
-          <p className="text-xs font-light">
+          <p className="max-sm:hidden text-xs font-light">
             <span className="italic">Created: </span>
             {formatTimestamp(board.createdAt)}
           </p>

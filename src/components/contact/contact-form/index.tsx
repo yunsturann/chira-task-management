@@ -99,7 +99,7 @@ const ContactForm = () => {
       onSubmit={handleSubmit(onSubmitMail)}
       className="flex flex-col gap-y-4"
     >
-      <div className="flex flex-col sm:flex-row justify-between gap-x-4">
+      <div className="flex flex-col sm:flex-row justify-between gap-4">
         <Input
           {...register("name")}
           label="Name"

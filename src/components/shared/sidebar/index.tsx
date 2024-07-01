@@ -37,6 +37,7 @@ const Sidebar = () => {
           {/* Bottom Actions  */}
           <div className="space-y-8 dark:dark">
             <ThemeSwitcher />
+
             <UserButton afterSignOutUrl="/" showName />
           </div>
         </SignedIn>
@@ -60,7 +61,7 @@ const Sidebar = () => {
             <ThemeSwitcher />
             <Link
               href="/sign-in"
-              className="text-xl text-center text-white font-semibold p-3 rounded-lg bg-blue-500  dark:bg-blue-900 hover:opacity-70 transition duration-300"
+              className="text-xl text-center text-white font-semibold p-3 rounded-lg bg-blue-500 dark:bg-blue-900 hover:opacity-70 transition duration-300"
             >
               Login
             </Link>

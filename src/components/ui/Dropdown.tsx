@@ -16,11 +16,19 @@ interface DropdownProps {
   children: React.ReactNode;
   iconSize?: number;
   iconClassName?: string;
+  position?: "top" | "bottom";
 }
 
 const Dropdown = (props: DropdownProps) => {
-  const { isOpen, setIsOpen, children, actionIcon, iconSize, iconClassName } =
-    props;
+  const {
+    isOpen,
+    setIsOpen,
+    children,
+    actionIcon,
+    iconSize,
+    iconClassName,
+    position = "bottom",
+  } = props;
 
   // ** Refs
   const dropdownRef = useRef<HTMLUListElement | null>(null);
@@ -46,7 +54,13 @@ const Dropdown = (props: DropdownProps) => {
       {/* Actions Items */}
       {isOpen && (
         <ul
-          className="absolute z-50 top-full mt-2 right-0 w-40 bg-white dark:bg-gray-500 border border-gray-400 shadow-lg p-1.5 rounded-lg space-y-1.5 text-sm tracking-tight"
+          className={cn(
+            "absolute z-50 right-0 w-40 bg-white dark:bg-gray-500 border border-gray-400 shadow-lg p-1.5 rounded-lg space-y-1.5 text-sm tracking-tight",
+            {
+              "top-full mt-2": position === "bottom",
+              "bottom-full mb-2": position === "top",
+            }
+          )}
           ref={dropdownRef}
         >
           {children}
