@@ -39,6 +39,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
             "dark:bg-gray-600 px-4 rounded-md border border-gray-300 dark:border-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50":
               !isUnderlined,
           },
+          {
+            "outline-none focus:ring-0": type === "range",
+          },
           className
         )}
       />

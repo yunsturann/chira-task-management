@@ -17,6 +17,9 @@ import toast from "react-hot-toast";
 // ** Utils
 import { onInputRemoveSpace } from "@/lib/utils";
 
+// ** Constants
+import { lightColorList } from "@/constants";
+
 export interface ITag {
   tag: string;
   color: string;
@@ -63,7 +66,12 @@ const InputTags = forwardRef<HTMLInputElement, InputTagsProps>((props, ref) => {
       />
       {/* Tag Input  & Color & Add Button */}
       <div className="grid sm:grid-cols-2 items-end gap-x-4 gap-y-3">
-        <ColorPicker className="col-span-1" color={color} setColor={setColor} />
+        <ColorPicker
+          colorList={lightColorList}
+          className="col-span-1"
+          color={color}
+          setColor={setColor}
+        />
         <Button type="button" color="gray" onClick={handleAddTag}>
           Add Tag
         </Button>

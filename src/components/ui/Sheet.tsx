@@ -14,17 +14,27 @@ interface SheetProps {
   className?: string;
   header?: React.ReactNode;
   children?: React.ReactNode;
+  hasOverlay?: boolean;
 }
 
 const Sheet = (props: SheetProps) => {
-  const { isOpen, onClose, className, header, children } = props;
+  const {
+    isOpen,
+    onClose,
+    className,
+    header,
+    children,
+    hasOverlay = true,
+  } = props;
 
   return (
     <>
       {/* overlay */}
       {isOpen ? (
         <div
-          className="z-10 fixed top-0 left-0 w-full h-screen bg-black/50"
+          className={cn("z-10 fixed top-0 left-0 w-full h-screen ", {
+            "bg-black bg-opacity-50": hasOverlay,
+          })}
           onClick={onClose}
         ></div>
       ) : null}

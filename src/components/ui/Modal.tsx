@@ -20,22 +20,18 @@ const Modal = (props: ModalProps) => {
   const { title, children, innerClass, onClose } = props;
 
   return (
-    <div
-      className="fixed inset-0 h-screen w-full bg-black/40 z-10 flex items-center justify-center"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 h-screen w-full bg-black/40 z-10 flex items-center justify-center">
       <div
         className={cn(
           "z-20 flex flex-col bg-white dark:bg-gray-700 min-w-[320px] w-[94%] lg:w-1/2 rounded-xl p-4 sm:p-6",
           innerClass
         )}
-        onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
         <header className="flex justify-between gap-4 items-center">
           <h2 className="text-xl font-semibold ">{title}</h2>
           <div
-            className="cursor-pointer hover:scale-110 transition duration-300"
+            className="cursor-pointer hover:scale-125 hover:text-red-500 transition duration-300"
             onClick={onClose}
           >
             <FaX />
